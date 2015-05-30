@@ -19,84 +19,82 @@
 
 </head>
 
-<body class="container">
+<body>
 	<div class="jumbotron">
 		<h1>Mapping basics</h1>
 		<p class="lead">Maps are a great way to display geographic data.</p>
 	</div>
-	
-	<div class="row">
-		<h2>Adding features</h2>
-		<div class="col-lg-12 col-md-12 col-sm-12">
-			<img src="http://docs.qgis.org/2.2/en/_images/mActionAddOgrLayer.png" /> Vector layer
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12">
+				<h2>Adding features</h2>
+				<p><img src="http://docs.qgis.org/2.2/en/_images/mActionAddOgrLayer.png" /> Vector layer</p>
+				<p><img src="http://docs.qgis.org/2.2/en/_images/mActionAddRasterLayer.png" /> Raster layer</p>
+				<p><img src="http://docs.qgis.org/2.2/en/_images/mActionAddDelimitedTextLayer.png" /> Delimited text layer</p>
+			</div>
 		</div>
-		<div class="col-lg-12 col-md-12 col-sm-12"><img src="http://docs.qgis.org/2.2/en/_images/mActionAddRasterLayer.png" /> Raster layer
+		
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h2>What is a .qgs file?</h2>
+				<p>When you save a map file, it will save as a .qgs. This file is a configuration file. It basically just references the files that you load into QGIS. IT DOES NOT HOLD ANY OF YOUR DATA. This means if you move the shapefiles you load into your map after you save it, your map will break.</p>
+				<p>So dedicate a folder to each map you work on. Put your shapefiles and your map file in there and don't move them around.</p>
+				<h3>This might seem like a weird, crappy way to organize things. But it's not. And here's why.</h3>
+				<p>QGIS isn't perfect. Sometimes it exhibits behavior that neither you nor the message forums can explain. So your only recourse is to shut 'er down and reopen the program.</p>
+				<p>And sometimes, that doesn't work either. So you need to scrap your map file.</p>
+				<p>Now, if all of your work depended on that one .qgs file, that would suck hardcore. But since your shapefiles and data are separate files, and since you've taken <a href="#process-notes">crazy good process notes</a>, you're totally fine.</p>
+			</div>
 		</div>
-		<div class="col-lg-12 col-md-12 col-sm-12"><img src="http://docs.qgis.org/2.2/en/_images/mActionAddDelimitedTextLayer.png" /> Delimited text layer
+		
+		
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h2>What is a shapefile?</h2>
+				<p>A shapefile is the most common vector feature type. It is comprised of a series of other files including:</p>
+				<ul>
+					<li>.shp - the feature geometry</li>
+					<li>.shx - positioning index of the feature geometry</li>
+					<li>.dbf - the data attributes for the features. This can be opened with editors like excel.</li>
+					<li>.prj - projection file. This can also be opened and analyzed. Especially if you're having projection issues.</li>
+				</ul>
+			</div>
+		</div>
+		
+		<div id="process-notes" class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h2>Naming your files</h2>
+				<p>There are going to be projects you work on that will require you to slice and dice a shapefile in many different ways. You need to be careful what you name each file so you aren't analyzing old shapefiles.</p>
+				<p>I would strongly recommend taking detailed notes about how you change shapefiles so you can return to the notes in case you lose track of which file is which, or if something goes wrong and you need to diagnose a problem.</p>
+				<figure>
+					<img src="img/qgis-file-organization.png" alt="Bad file organization" />
+					<figcaption>Here's an example of bad file naming. Notice the folders labelled "_old". What does that mean. I made that folder and I don't know what it means. Sigh.</figcaption>
+				</figure>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h2>What is a projection?</h2>
+				<p>So the earth is round, right? Turns out it's not the easiest thing to make something round and three-dimensional look flat. But to hell if we don't try.</p>
+				<p>That's basically what projections are, flat representations of our round world. Lots of people have taken a stab at making the best projection, but not all projections are created equal.</p>
+				<p>Depending on the scope and span of your data, you may want to stick to a more local, granular projection. But if you're trying to show the whole world things are going to get a little wonky at some point.</p>
+				
+				<h3>Mapping projections from the 1936 Oxford Advanced Atlas compiled by John Bartholomew, cartographer to His Majesty the King</h3>
+				<figure>
+					<img class="img-responsive" src="img/projections-overview.JPG" alt="map projection overview">
+				</figure>
+				<figure class="col-lg-4 col-md-4 col-sm-12">
+					<img class="img-responsive" src="img/projections-mercator.JPG" alt="mercator map projection, old">
+				</figure>
+				<figure class="col-lg-4 col-md-4 col-sm-12">
+					<img class="img-responsive" src="img/projections-gores.JPG" alt="map projection gores">
+				</figure>
+				<figure class="col-lg-4 col-md-4 col-sm-12">
+					<img class="img-responsive" src="img/projections-conic.JPG" alt="conic map projection">
+				</figure>
+			</div>
 		</div>
 	</div>
-	
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h2>What is a .qgs file?</h2>
-			<p>When you save a map file, it will save as a .qgs. This file is a configuration file. It basically just references the files that you load into QGIS. IT DOES NOT HOLD ANY OF YOUR DATA. This means if you move the shapefiles you load into your map after you save it, your map will break.</p>
-			<p>So dedicate a folder to each map you work on. Put your shapefiles and your map file in there and don't move them around.</p>
-			<h3>This might seem like a weird, crappy way to organize things. But it's not. And here's why.</h3>
-			<p>QGIS isn't perfect. Sometimes it exhibits behavior that neither you nor the message forums can explain. So your only recourse is to shut 'er down and reopen the program.</p>
-			<p>And sometimes, that doesn't work either. So you need to scrap your map file.</p>
-			<p>Now, if all of your work depended on that one .qgs file, that would suck hardcore. But since your shapefiles and data are separate files, and since you've taken <a href="#process-notes">crazy good process notes</a>, you're totally fine.</p>
-		</div>
-	</div>
-	
-	
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h2>What is a shapefile?</h2>
-			<p>A shapefile is the most common vector feature type. It is comprised of a series of other files including:</p>
-			<ul>
-				<li>.shp - the feature geometry</li>
-				<li>.shx - positioning index of the feature geometry</li>
-				<li>.dbf - the data attributes for the features. This can be opened with editors like excel.</li>
-				<li>.prj - projection file. This can also be opened and analyzed. Especially if you're having projection issues.</li>
-			</ul>
-		</div>
-	</div>
-	
-	<div id="process-notes" class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h2>Naming your files</h2>
-			<p>There are going to be projects you work on that will require you to slice and dice a shapefile in many different ways. You need to be careful what you name each file so you aren't analyzing old shapefiles.</p>
-			<p>I would strongly recommend taking detailed notes about how you change shapefiles so you can return to the notes in case you lose track of which file is which, or if something goes wrong and you need to diagnose a problem.</p>
-			<figure>
-				<img src="img/qgis-file-organization.png" alt="Bad file organization" />
-				<figcaption>Here's an example of bad file naming. Notice the folders labelled "_old". What does that mean. I made that folder and I don't know what it means. Sigh.</figcaption>
-			</figure>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<h2>What is a projection?</h2>
-			<p>So the earth is round, right? Turns out it's not the easiest thing to make something round and three-dimensional look flat. But to hell if we don't try.</p>
-			<p>That's basically what projections are, flat representations of our round world. Lots of people have taken a stab at making the best projection, but not all projections are created equal.</p>
-			<p>Depending on the scope and span of your data, you may want to stick to a more local, granular projection. But if you're trying to show the whole world things are going to get a little wonky at some point.</p>
-			
-			<h3>Mapping projections from the 1936 Oxford Advanced Atlas compiled by John Bartholomew, cartographer to His Majesty the King</h3>
-			<figure>
-				<img class="img-responsive" src="img/projections-overview.JPG" alt="map projection overview">
-			</figure>
-			<figure class="col-lg-4 col-md-4 col-sm-12">
-				<img class="img-responsive" src="img/projections-mercator.JPG" alt="mercator map projection, old">
-			</figure>
-			<figure class="col-lg-4 col-md-4 col-sm-12">
-				<img class="img-responsive" src="img/projections-gores.JPG" alt="map projection gores">
-			</figure>
-			<figure class="col-lg-4 col-md-4 col-sm-12">
-				<img class="img-responsive" src="img/projections-conic.JPG" alt="conic map projection">
-			</figure>
-		</div>
-	</div>
-
 </body>
 
 </html>
