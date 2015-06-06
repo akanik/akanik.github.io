@@ -25,9 +25,15 @@
 <body>
 	<div class="jumbotron">
 		<div class="container">
-			<h1>Mapping basics</h1>
-			<p class="lead">Maps are a great way to display geographic data.</p>
-			<div class="pull-left btn btn-default"><a href="data/abandoned-pa-mines-data.zip"><i class="glyphicon glyphicon-save-file"></i>Download the data</a></div>
+			<div class="col-lg-6 col-md-6 col-sm-12">
+				<h1>Mapping basics</h1>
+				<p class="lead">Maps are a great way to display geographic data.</p>
+				<div class="pull-left btn btn-default"><a href="data/abandoned-pa-mines-data.zip"><i class="glyphicon glyphicon-save-file"></i>Download the data</a></div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-12">
+				<h4>Don't be a stranger now:</h4>
+				<p><a href="">@act_rational</a></p>
+			</div>
 		</div>
 	</div>
 	<div class="container">
@@ -140,6 +146,7 @@
 					<li>Click the <img src="http://docs.qgis.org/2.2/en/_images/mActionAddOgrLayer.png" /> vector layer button</li>
 					<li>Navigate to your working directory</li>
 					<li>Add <code>tl_2014_42_county</code> --> <code>tl_2014_42_county.shp</code></li>
+					<li><a href="#map-projections">Let's talk about projections now.</a></li>
 					<li>Add <code>aml_inve</code> --> <code>aml_inve.shp</code></li>
 					<li>Add <code>pa-nursing-homes-20150220</code> --> <code>pa-nursing-homes-20150220-shp</code> --> <code>pa-nursing-homes-20150220.shp</code></li>
 				</ul>
@@ -155,14 +162,15 @@
 				<img src="img/mapping-screenshots/csv-upload.png" alt="csv upload screenshot" />					
 				
 				
-				<h3>The difference between map projection and layer projection</h3>
+				<h3 id="map-projections">The difference between map projection and layer projection</h3>
 				
 				<h4>On-the-fly projecting</h4>
-				<p>NOTE: On-the-fly projecting does NOT change your shapefile's projection.</p>
+				<p>On-the-fly projecting is a way of setting the project-level projection so that subsequent shapefiles added to the project assume that specified projection.</p>
+				<p>NOTE: On-the-fly projecting does NOT actually change your shapefile's projection. So next time you use this shapefile in a new map, it will revert back to whatever projection it had before you added it to your on-the-fly map. If you want to actually change a shapefile's projection <a href="#changing-projection">see this section.</a></p>
 				<img class="img-responsive" src="img/mapping-screenshots/projections-1.png" alt="projecting layers screenshot" />
 				<img class="img-responsive" src="img/mapping-screenshots/projections-2.png" alt="projecting layers screenshot" />
 				<img class="img-responsive" src="img/mapping-screenshots/projections-3.png" alt="projecting layers screenshot" />
-				<h4>Changing a shapefile's projection</h4>
+				<h4 id="changing-projection">Changing a shapefile's projection</h4>
 				<ul>
 					<li>Right-click the layer you'd like to change</li>
 					<li>Select "Save as"</li>
