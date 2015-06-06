@@ -8,6 +8,6 @@ body{
 	line-height: 2em;
 }
 
-img{
+img.img-responsive{
 	margin:3em 0;
 }

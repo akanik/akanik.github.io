@@ -117,17 +117,20 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<h2>Demo</h2>
 				<p>In this demo, we're going to be creating a map that overlays Pennsylvania hospitals and nursing homes with abandoned mine data.</p>
-				<img class="img-responsive" src="img/mapping-screenshots/adding-data-1.png" alt="blank QGIS worksheet" />
 				<p>This is a blank map.</p>
+				<img class="img-responsive" src="img/mapping-screenshots/adding-data-1.png" alt="blank QGIS worksheet" />
 				
 				
 				<h3>The working directory</h3>
 				<ul>
-					<li>Download the data from the link at the top of the page</li>
-					<li>Choose your working directory, and stick with it.</li>
+					<li><a href="data/abandoned-pa-mines-data.zip">Download the data</a></li>
+					<li>Choose your working directory, and stick with it</li>
 				</ul>
 				<img class="img-responsive" src="img/mapping-screenshots/adding-data-4.png" alt="working directory screenshot" />
 				<p>A working directory is a place on your computer where you house all of your map shapefiles. Once a shapefile is added to the working directory, it should not be moved around because that can break the file path and therefore your map.</p>
+				<p>In the example above, <code>abandoned-pa-mines-data</code> is the working directory.</p>
+				
+				<h4>This is what you'll see if you move layers and map files around</h4>
 				<img src="img/mapping-screenshots/lost-layer.png" alt="lost file screenshot" />
 				
 				<h3>Adding data</h3>
@@ -146,12 +149,14 @@
 					<li>Navigate to your working directory</li>
 					<li>Add the <code>pa-hospitals-20150220</code> folder --> <code>pa-hospitals-20150220-source.csv</code></li>
 				</ul>
-				<p class="lead col-lg-6 col-md-6 col-sm-6">Latitude = Y </p>
-				<p class="lead col-lg-6 col-md-6 col-sm-6">Longitude = X</p>
+				<p><strong>Write this down:</strong></p>
+				<p class="lead">Latitude = Y </p>
+				<p class="lead">Longitude = X</p>
 				<img src="img/mapping-screenshots/csv-upload.png" alt="csv upload screenshot" />					
 				
 				
 				<h3>The difference between map projection and layer projection</h3>
+				
 				<h4>On-the-fly projecting</h4>
 				<p>NOTE: On-the-fly projecting does NOT change your shapefile's projection.</p>
 				<img class="img-responsive" src="img/mapping-screenshots/projections-1.png" alt="projecting layers screenshot" />
@@ -173,6 +178,15 @@
 					<li>Style accordingly</li>
 				</ul>
 				<img class="img-responsive" src="img/mapping-screenshots/styling-1.png" alt="styling layers screenshot" />
+				
+				<h3>Selecting by location</h3>
+				<img class="img-responsive" src="img/mapping-screenshots/select-by-location-1.png" alt="selecting features by location screenshot" />
+				<img class="img-responsive" src="img/mapping-screenshots/select-by-location-2.png" alt="selecting features by location screenshot" />
+				<img class="img-responsive" src="img/mapping-screenshots/select-by-location-3.png" alt="selecting features by location screenshot" />
+				
+				
+				
+				
 			</div>
 		</div>
 		
