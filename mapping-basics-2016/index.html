@@ -211,7 +211,7 @@
 		<div id="demo" class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<h2>Demo</h2>
-				<p>In this demo, we're going to be creating a map that overlays Pennsylvania hospitals and nursing homes with abandoned mine data.</p>
+				<p>In this demo, we're going to be creating a map that overlays Pennsylvania nursing homes with abandoned mine data.</p>
 				<p>This is a blank map.</p>
 				<img class="img-responsive" src="img/mapping-screenshots/adding-data-1.png" alt="blank QGIS worksheet" />
 				
@@ -240,25 +240,49 @@
 					<li>Add <code>pa-nursing-homes-20150220</code> --> <code>pa-nursing-homes-20150220-shp</code> --> <code>pa-nursing-homes-20150220.shp</code></li>
 				</ul>
 				<h4>Adding delimited text layers</h4>
+				<p>There are two types of delimited text layers you can add: geographic and non-geographic.</p>
+				<p><strong>Geographic delimited text layers</strong></p>
+				<p>So we've already add the <code>pa-nursing-homes-20150220</code> as a shapefile, but there's another <code>pa-nursing-homes-20150220</code> data file in our working directory.</p>
 				<ul>
-					<li>Click the <img src="http://docs.qgis.org/2.2/en/_images/mActionAddDelimitedTextLayer.png" />delimited text layer button</li>
+    				<li>Click the <img src="http://docs.qgis.org/2.2/en/_images/mActionAddDelimitedTextLayer.png" />delimited text layer button</li>
 					<li>Navigate to your working directory</li>
-					<li>Add the <code>pa-hospitals-20150220</code> folder --> <code>pa-hospitals-20150220-source.csv</code></li>
+					<li>Add <code>pa-nursing-homes-20150220</code> --> <code>pa-nursing-homes-20150220-geo.csv</code></li>
 				</ul>
+				
+				<p>On the data import screen, we have many options. Most of them are self explanatory. But look under Geometry definition. This is where we will be telling QGIS that we have a delimited text layer that has geographic data.</p>
+				
+				<p>Make sure <b>Point coordinates</b> is checked.</p>
+				
+				<p>Then set your latitude and longitude fields</p>
+				
+				<img class="img-responsive" src="img/mapping-screenshots/csv-upload.png" alt="csv upload screenshot" />
+				
 				<p><strong>Write this down:</strong></p>
 				<p class="lead">Latitude = Y </p>
 				<p class="lead">Longitude = X</p>
-				<img class="img-responsive" src="img/mapping-screenshots/csv-upload.png" alt="csv upload screenshot" />					
 				
+				<img class="img-responsive" src="img/mapping-screenshots/geo-csv-CRS.png" alt="csv upload CRS" />	
 				
-				<h3 id="map-projections">The difference between map projection and layer projection</h3>
+				<p><strong>Non-geographic delimited text layers</strong></p>
+				<p>If your delimited text file doesn't have those latitude and longitude columns, you can still import the data, but nothing will be mapped</p>
+				<p>This is often useful and necessary when you're trying to join non-geographic data to geographic data. Michael Corey goes over that <a href="http://mikejcorey.github.io/nicar_qgis_advanced/">in his presentation.</a></p>
+				<ul>
+					<li>Click the <img src="http://docs.qgis.org/2.2/en/_images/mActionAddDelimitedTextLayer.png" />delimited text layer button</li>
+					<li>Navigate to your working directory</li>
+					<li>Add the <code>pa-nursing-homes-20150220</code> folder --> <code>pa-nursing-homes-20150220-source.csv</code></li>
+				</ul>
+				
+				<p>Because we have no geometry in this file, QGIS won't let us add it to the map until we tell it that there's <b>No geometry (attribute table only)</b></p>
+				<img class="img-responsive" src="img/mapping-screenshots/non-geo-csv.png" alt="non-geo csv upload" />
+				
+				<h3 id="map-projections">The difference between On-the-fly (project-level) projection and layer projection</h3>
 				
 				<h4>On-the-fly projecting</h4>
 				<p>On-the-fly projecting is a way of setting the project-level projection so that subsequent shapefiles added to the project assume that specified projection.</p>
+				<p>You'll want to set this on-the-fly projecting <i>before</i> adding any data to your map.</p>
 				<p>NOTE: On-the-fly projecting does NOT actually change your shapefile's projection. So next time you use this shapefile in a new map, it will revert back to whatever projection it had before you added it to your on-the-fly map. If you want to actually change a shapefile's projection <a href="#changing-projection">see this section.</a></p>
-				<img class="img-responsive" src="img/mapping-screenshots/projections-1.png" alt="projecting layers screenshot" />
-				<img class="img-responsive" src="img/mapping-screenshots/projections-2.png" alt="projecting layers screenshot" />
-				<img class="img-responsive" src="img/mapping-screenshots/projections-3.png" alt="projecting layers screenshot" />
+				<img class="img-responsive" src="img/mapping-screenshots/projections-OTF.png" alt="projecting layers screenshot" />
+				<img class="img-responsive" src="img/mapping-screenshots/projections-OTF-2.png" alt="projecting layers screenshot" />
 				<h4 id="changing-projection">Changing a layer's projection</h4>
 				<p>If you'd like to change a layer's projection instead of just changing how the layer looks in the QGIS system, you'll need to follow these steps.</p>
 				<ul>
@@ -269,8 +293,11 @@
 					<li>NOTE: this process is going to create a NEW shapefile from your existing shapefile, so make sure to name it something you'll remember</li>
 					<li>Name your new shapefile and add it to your working directory with the "Browse" button</li>
 				</ul>
-				<img class="img-responsive" src="img/mapping-screenshots/projections-layer-1.png" alt="projecting layers screenshot" />
-				<img class="img-responsive" src="img/mapping-screenshots/projections-layer-2.png" alt="projecting layers screenshot" />
+				<!--<img class="img-responsive" src="img/mapping-screenshots/projections-layer-1.png" alt="projecting layers screenshot" />
+				<img class="img-responsive" src="img/mapping-screenshots/projections-layer-2.png" alt="projecting layers screenshot" />-->
+				
+				
+				<p>You might be thinking... well that didn't seem to change anything. But close down QGIS, open a new map, and add that newly projected shapefile. You'll see that it now looks much different. Much more like Pennsylvania is expected to look.</p>
 				
 				
 				<h3>Styling</h3>
@@ -282,7 +309,7 @@
 				<img class="img-responsive" src="img/mapping-screenshots/styling-1.png" alt="styling layers screenshot" />
 				
 				<h3>Selecting by location</h3>
-				<p>Now we want to take a look at only those hospitals or nursing homes that sit on top of abandoned mines.</p>
+				<p>Now we want to take a look at only those nursing homes that sit on top of abandoned mines.</p>
 				<ul>
 					<li>Navigate to the Vector menu > Research tools > Select by location</li>
 				</ul>
