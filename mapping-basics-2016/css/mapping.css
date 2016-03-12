@@ -12,15 +12,22 @@ body{
     margin-top:0;
 }
 
-/*img.img-responsive{
+img.img-responsive{
 	margin:3em 0;
 }
 
 h3{
-	margin-top:2em;
-}*/
+	font-weight: 300;
+}
 
 .row{
     margin-top:25px;
     margin-bottom: 25px;
+}
+
+.accordion{
+    background: #f1f1f1;
+    border-radius: 5pt;
+    border:#cccccc 1px solid;
+    padding:10px 20px;
 }
