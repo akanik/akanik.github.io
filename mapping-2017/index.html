@@ -15,7 +15,7 @@
   	<div class="jumbotron">
   		<div class="container">
       		<div class="row">
-      			<div class="col-lg-6 col-md-6 col-sm-12">
+      			<div class="col-lg-8 col-md-8 col-sm-12">
       				<h1>QGIS II: Manipulating, editing and analyzing geographic data</h1>
       				<p class="lead">NICAR 2017<br>
         				      Jacksonville, FL<br>
@@ -24,15 +24,56 @@
       				</p>
       				<p>Alexandra Kanik (<a href="https://twitter.com/act_rational">@act_rational</a>)</p>
       			</div>
-      			<div class="col-lg-6 col-md-6 col-sm-12">
-      				<p>Dive even deeper into data mapping in this continuation of QGIS I. This class will cover joining data tables to maps, aggregating point data for easier analysis and preparing geographic data for display online. It is strongly recommended that you take QGIS I immediate preceding this session, but it is not a strict requirement. <div class="btn btn-default"><a href="https://www.dropbox.com/s/o0hzf0z4hwinou7/auto-accidents-data.tar.bz2?dl=0"><i class="glyphicon glyphicon-save-file"></i>Download the data</a></div></p>
-      				<p><em><a href="https://www.dropbox.com/s/f8vyeau2cro0i18/auto-accidents-data.zip?dl=0">Or here's the zip</a></em></p>
+      			<div class="col-lg-4 col-md-4 col-sm-12">
+      				<p>Dive even deeper into data mapping in this continuation of QGIS I. This class will cover joining data tables to maps, aggregating point data for easier analysis and preparing geographic data for display online. It is strongly recommended that you take QGIS I immediate preceding this session, but it is not a strict requirement. <div class="btn btn-default"><a href="https://www.dropbox.com/s/o0hzf0z4hwinou7/auto-accidents-data.tar.bz2?dl=0"><i class="glyphicon glyphicon-save-file"></i>Download the data (.bzip2)</a></div></p>
+      				<div><em><a href="https://www.dropbox.com/s/f8vyeau2cro0i18/auto-accidents-data.zip?dl=0">Or here's the zip</a></em></div>
       			</div>
               </div>
   		</div>
   	</div>
   	<div class="container">
-  		Coming soon!
+  		<div class="row">
+      		<p>If you're new to QGIS and/or mapping, you should probably start here: link to QGIS I notes</p>
+      		<p>If you're just joining us, please do these things:</p>
+      		<ul>
+          		<li>Open the <code>tl_2015_us_county</code> shapefile, select Florida and export to a new shapefile</li>
+          		<li>Filter <code>Accident Master.xlsx</code> sheet <code>accident cutdown</code> to Florida only and export as a csv</li>	
+      		</ul>
+  		</div>
+  		<div class="row">
+      		<h2>Let's get started</h2>
+      		<p>Open QGIS.</p>
+      		<p>Go to <code>Project > Project Properties</code> and check <strong>Enable 'on the fly' CRS transformation.</strong></p>
+      		<p>Add your Florida shapefile.</p>
+      		<p>Add our florida accidents. When prompted to pick a Coordinate Reference System, choose WGS84.</p>
+  		</div>
+  		<div class="row">
+      		<h2>Aggregating point data</h2>
+      		<p>This is a good start, but in order to report out this story a bit more, we're going to want to know where the majority of these accidents are happening. Let's do a county-by-county analysis with <code>Points in Polygon</code>.</p>
+      		<p>Click <code>Vector > Analysis Tools > Points in Polygon</code></p>
+      		<p><strong>Input polygon vector layer</strong> = our Florida counties</p>
+      		<p><strong>Input point vector layer</strong> = our Florida accidents</p>
+      		<p>We don't want to change <strong>Input point vector layer attributes to aggregate</strong> or <strong>Statistical method for attribute aggregation</strong> right now.</p>
+      		<p>We're creating a new shapefile with this process. It will look just like our Florida counties shapefile with an added column, PNTCNT. If you want to change the name of that column, change the value of <strong>Output count filed name</strong>.</p>
+      		<p>You also need to set the path and filename for the shapefile we're creating. Click <strong>Browse</strong> under <strong>Output Shapefile</strong>.</p>
+      		<p>Once you have all that set, click OK.</p>
+      		<p>Accidents vs. people involved</p>
+  		</div>
+  		<div class="row">
+      		<h2>Location-based aggregation</h2>
+      		<p>Counties are kind of arbitrary when we're talking about accidents. Let's look at something more location based.</p>
+      		<p>HEX BINS</p>
+      		<p>Install MMQGIS</p>
+      		<p>Install MMQGIS</p>
+  		</div>
+  		<div class="row">
+      		<h2>Calculating new fields</h2>
+      		<p>Do the hex thing here</p>
+      		<p>Points in polygon</p>
+  		</div>
+  		<div class="row">
+      		<h2>Preparing data for online display</h2>
+  		</div>
   	</div>
   </body>
 
