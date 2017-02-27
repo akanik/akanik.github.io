@@ -37,7 +37,7 @@
       		<p>If you're just joining us, please do these things:</p>
       		<ul>
           		<li>Open the <code>tl_2015_us_county</code> shapefile, select Florida and export to a new shapefile</li>
-          		<li>Filter <code>Accident Master.xlsx</code> sheet <code>accident cutdown</code> to Florida only and export as a csv</li>	
+          		<li>Filter <code>Accident Master.xlsx</code> sheet <code>accident</code> to Florida only and export as a csv</li>	
       		</ul>
   		</div>
   		<div class="row">
@@ -50,6 +50,7 @@
   		<div class="row">
       		<h2>Aggregating point data</h2>
       		<p>This is a good start, but in order to report out this story a bit more, we're going to want to know where the majority of these accidents are happening. Let's do a county-by-county analysis with <code>Points in Polygon</code>.</p>
+      		<h3>Crash Level</h3>
       		<p>Click <code>Vector > Analysis Tools > Points in Polygon</code></p>
       		<p><strong>Input polygon vector layer</strong> = our Florida counties</p>
       		<p><strong>Input point vector layer</strong> = our Florida accidents</p>
@@ -57,7 +58,23 @@
       		<p>We're creating a new shapefile with this process. It will look just like our Florida counties shapefile with an added column, PNTCNT. If you want to change the name of that column, change the value of <strong>Output count filed name</strong>.</p>
       		<p>You also need to set the path and filename for the shapefile we're creating. Click <strong>Browse</strong> under <strong>Output Shapefile</strong>.</p>
       		<p>Once you have all that set, click OK.</p>
-      		<p>Accidents vs. people involved</p>
+      		<p>Our new shapefile should have been added to our map. If we open up its attribute table we should see our new column (PNTCNT) at the end. The value in this column corresponds to the number of accidents in each county.</p>
+      		<h3>Fatality Level</h3>
+      		<p>The above analysis is good if we want to see our data in terms of accidents, but what if we want to know how many <em>people</em> were involved those accidents? As you can see our newly created shapefile doesn't have any additional data from the accidents data. Just a count of accidents.</p>
+      		<p>Let's go back into that <code>Vector > Analysis Tools > Points in Polygon</code> section.</p>
+      		<p>Again, choose:</p>
+      		<ul>
+          		<li><strong>Input polygon vector layer</strong> = our Florida counties</li>
+          		<li><strong>Input point vector layer</strong> = our Florida accidents</li>
+      		</ul>
+      		<p>This time, we're going to aggregate based on a field in our accidents data. We've got two person-oriented columns in our data PERSONS and FATALS. Let's choose FATALS to see how many deaths due to road accidents there have been per county.</p>
+      		<p>Make sure <strong>Statistical method for attribute aggregation</strong> is still set to sum.</p>
+      		<p>Set the field name and filename and path and click OK.</p>
+      		<p>Open the newly added shapefile attribute table. You'll see we've now got two additional columns: <strong>PNTCNT</strong> and <strong>FATALS_sum</strong>.</p>
+      		<ul>
+          		<li><strong>PNTCNT</strong> tells us how many accidents happened in the county and</li>
+          		<li><strong>FATALS_sum</strong> tells us how many fatalities happened in the county.</li>
+            </ul>
   		</div>
   		<div class="row">
       		<h2>Location-based aggregation</h2>
