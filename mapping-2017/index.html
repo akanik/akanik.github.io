@@ -77,11 +77,17 @@
             </ul>
   		</div>
   		<div class="row">
-      		<h2>Location-based aggregation</h2>
-      		<p>Counties are kind of arbitrary when we're talking about accidents. Let's look at something more location based.</p>
-      		<p>HEX BINS</p>
-      		<p>Install MMQGIS</p>
-      		<p>Install MMQGIS</p>
+      		<h2>Hex-bins</h2>
+      		<p>Counties are kind of arbitrary when we're talking about accidents. As you can see, some counties are much larger that others. That is likely to bias our look at accidents by location. So let's look at something more equally balanced.</p>
+      		<p>First, let's install a plugin that will help us create the hex bins: MMQGIS.</p>
+      		<p>Go to <code>Plugins > Manage and Install Plugins...</code></p>
+      		<p>Search for <em>mmqgis</em> and install the plugin.</p>
+      		<p>Once installed, you should see an additional menu item: MMQGIS.</p>
+      		<p>Select <code>MMQGIS > Create > Create Grid Layer.</code></p>
+      		<ul>
+          		<li><strong>Shape Type</strong> = Hexagons</li>
+          		<li><strong>Units</strong> = Layer Units</li>
+      		</ul>
   		</div>
   		<div class="row">
       		<h2>Calculating new fields</h2>
