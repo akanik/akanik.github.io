@@ -67,40 +67,81 @@
   		</div>
   		
   		<div class="row">
-      		<h2>Let's get started</h2>
-      		<p>Open QGIS.</p>
-      		<p>Go to <code>Project > Project Properties</code> and check <strong>Enable 'on the fly' CRS transformation.</strong></p>
-      		<p>Add your Florida shapefile.</p>
-      		<p>Add our florida accidents. When prompted to pick a Coordinate Reference System, choose WGS84.</p>
+      		<h2>Filtering and saving new vector files</h2>
+      		<p>More often than not, you're going to get more data than you want to use. For example, we've got county data for the entire United States, but we're just looking at Florida accidents.</p>
+      		<p>Instead of making QGIS process that huge shapefile every time we make a change, let's filter out all the counties outside of Florida.</p>
+      		<p><strong>STEP 1:</strong> Open up a new QGIS project. Go to <code>Project > Project Properties</code> and check <strong>Enable 'on the fly' CRS transformation.</strong></p>
+      		<p><strong>STEP 2:</strong> Add vector layer <code>tl_2015_us_county.shp</code>.</p>
+      		<p><strong>STEP 3:</strong> As with most things in QGIS, there is more than one way to filter a shapefile. I'll show you my two favorites. There may be more:</p>
+      		<p><em>Option 1:</em><br>
+          Right click the <code>tl_2015_us_county.shp</code> layer and select <strong>Open Attribute Table.</strong> In the top menu bar of the attribute table pop up you should see an icon that looks like an E on top of a yellow square. <img src="https://docs.qgis.org/2.14/en/_images/mIconExpressionSelect.png" />.</p>
+      		<h3>{Insert open-attribute-table.png here}</h3>
+      		<p>You should get another popup with some drop down options and a large textarea. Click on <strong>Fields and Values</strong>. What drops down should look familiar to you: it's all the available fields on this shapefile. We're only interested in the first one though, <strong>STATEFP</strong>. Give that field a double click and you should see it appear in the textarea to the left. Then, using either the helper functions above the textarea or your keyboard type an equals (=) sign and then number 12. Then click the "Select" button at the bottom.</p>
+      		<div class="protip">
+        		<p>PROTIP: If you're trying to filter by a field but you don't know all the values available to you in that field, QGIS will let you know.</p>
+        		<h3>{Insert advanced-filtering.gif here}</h3>
+          </div>      		
+          <p>QGIS is a subtle beast. Clicking "Select" seemingly does nothing, but if we close out of this popup and the attribute table popup, and zoom into Florida on our U.S. counties shapefile, you'll see she's all yellow! That means we've selected all the counties in Florida.</p>
+          <p>Now we want to save this selection as its own shapefile, so right click the U.S. counties shapefile again and select "Save as...".</p>
+          <ul>
+            <li><strong>Filter = ESRI Shapefile</strong> - there lots of options but let's stick with the shapefile for now.</li>
+            <li><strong>Save as</strong> - Save your new shapefile in its own folder with a name that is both descriptive of WHERE IT CAME FROM and WHAT IT IS NOW. I'm going to call mine <code>tl_2015_fl_county</code> because that reminds we that I got this original counties shapefile from the Census Bureau (tigerline) and that it's now a Florida-specific counties shapefile. Naming is important.</li>
+            <li><strong>CRS</strong> - Leave as is for now.</li>
+            <li><strong>Save only selected features</strong> - If we don't do this, we're just saving our original U.S. counties shapefile as a copy of itself.</li>
+            <li><strong>Add saved file to map</strong></li>
+      		</ul>
+      		<h3>{Insert save-selected.png here}</h3>
+      		<p>Now we have just the state of Florida as its own shapefile.</p>
+          
+          <p><em>Option 2:</em> <br>
+          Right click the <code>tl_2015_us_county.shp</code> layer and select "Filter". You should see a very similar popup to the one we had before. And we're going to do just what we did last time, double click the STATEFP field and add <code>= 12</code> to the end. With this dialog box we get the option to test our filter, so go ahead and click "Test" once you've entered the query into the filter expression textarea.</p>
+          <p>You might have received an error message that looks like this:</p>
+          <h3>{Insert select-error.png here}</h3>
+          <p>Sometimes QGIS is a jerkface and it imports what should be numbers as text. All we've got to do to fix this error is add some double quotes around the number 12. Now when we hit "Test" we should get another popup that tells us that "The where clause returned 67 row(s)". This information should make us very happy because there are, in fact, 67 counties in Florida.</p>
+          <p>Click "OK" and you should see that what was once the U.S. is now only Florida. However, if we removed our <code>tl_2015_us_county.shp</code> layer now and added it back, we'd see that it was once again the entire U.S. We still need to save this as its own shapefile.</p>
+          <p>Again, as we did before, right click the U.S. counties shapefile and select "Save as...".</p>
+          <ul>
+            <li><strong>Filter = ESRI Shapefile</strong> - there lots of options but let's stick with the shapefile for now.</li>
+            <li><strong>Save as</strong> - Save your new shapefile in its own folder with a name that is both descriptive of WHERE IT CAME FROM and WHAT IT IS NOW. I'm going to call mine <code>tl_2015_fl_county</code> because that reminds we that I got this original counties shapefile from the Census Bureau (tigerline) and that it's now a Florida-specific counties shapefile. Naming is important.</li>
+            <li><strong>CRS</strong> - Leave as is for now.</li>
+            <li>No need to check <strong>Save only selected features</strong></li>
+            <li><strong>Add saved file to map</strong></li>
+      		</ul>
+      		<p>Now we have just the state of Florida as its own shapefile.</p>
+      		
   		</div>
   		<div class="row">
     		<h2>Aggregating point data</h2>
     		
-    		<p>This is a good start, but in order to report out this story a bit more, we're going to want to know where the majority of these accidents are happening. Let's do a county-by-county analysis with <code>Points in Polygon</code>.</p>
+    		<p>Last session you saw how to join county accident data to your shapefile. But what if you don't have that county-by-county accident data? Never fear! We can create that data right in QGIS using <code>Points in Polygon</code>.</p>
+    		<p>Let's check out two different takes on aggregating this accident data.</p>
     		
-    		<h3>Crash Level</h3>
+    		<h3>Take 1: Crash-Level Aggregation</h3>
     		
     		<p>Click <code>Vector > Analysis Tools > Points in Polygon</code></p>
-    		<p><strong>Input polygon vector layer</strong> = our Florida counties</p>
-    		<p><strong>Input point vector layer</strong> = our Florida accidents</p>
-    		<p>We don't want to change <strong>Input point vector layer attributes to aggregate</strong> or <strong>Statistical method for attribute aggregation</strong> right now.</p>
-    		<p>We're creating a new shapefile with this process. It will look just like our Florida counties shapefile with an added column, PNTCNT. If you want to change the name of that column, change the value of <strong>Output count filed name</strong>.</p>
-    		<p>You also need to set the path and filename for the shapefile we're creating. Click <strong>Browse</strong> under <strong>Output Shapefile</strong>.</p>
-    		<p>Once you have all that set, click OK.</p>
-    		<p>Our new shapefile should have been added to our map. If we open up its attribute table we should see our new column (PNTCNT) at the end. The value in this column corresponds to the number of accidents in each county.</p>
-    		
-    		<h3>Fatality Level</h3>
-    		
-    		<p>The above analysis is good if we want to see our data in terms of accidents, but what if we want to know how many <em>people</em> were involved those accidents? As you can see our newly created shapefile doesn't have any additional data from the accidents data. Just a count of accidents.</p>
-    		<p>Let's go back into that <code>Vector > Analysis Tools > Points in Polygon</code> section.</p>
-    		<p>Again, choose:</p>
     		<ul>
-      		<li><strong>Input polygon vector layer</strong> = our Florida counties</li>
-      		<li><strong>Input point vector layer</strong> = our Florida accidents</li>
+    		    <li><strong>Input polygon vector layer</strong> = our Florida counties</li>
+                <li><strong>Input point vector layer</strong> = our Florida accidents</li>
+                <li>We don't want to change <strong>Input point vector layer attributes to aggregate</strong> or <strong>Statistical method for attribute aggregation</strong> right now.</li>
+                <li><strong>Output count fieled name</strong> - the column name of the new column we'll be creating with this option.</li>
+                <li><strong>Output Shapefile > Browse</strong> - this allows you to set the path and filename for the shapefile we're creating.</li>
+            </ul>
+    		<p>Once you have all that set, click OK.</p>
+    		<p>A new shapefile should have been added to our map. If we open up its attribute table we should see our new column (PNTCNT) at the end. The value in this column corresponds to the number of accidents in each county.</p>
+    		
+    		<h3>Take 2: Fatality-Level Aggregation</h3>
+    		
+    		<p>The above analysis is good if we want to see our data in terms of accidents, but what if we want to visualize it in terms of deaths?</p>
+    		<p>Let's go back into that <code>Vector > Analysis Tools > Points in Polygon</code> section.</p>
+    		<ul>
+      		  <li><strong>Input polygon vector layer</strong> = our Florida counties</li>
+            <li><strong>Input point vector layer</strong> = our Florida accidents</li>
+            <li><strong>Input point vector layer attributes to aggregate</strong> - check FATALS</li>
+            <li><strong>Statistical method for attribute aggregation</strong> = sum</li>
+            <li><strong>Output count fieled name</strong> - the column name of the new column we'll be creating with this option.</li>
+            <li><strong>Output Shapefile > Browse</strong> - this allows you to set the path and filename for the shapefile we're creating.</li>
     		</ul>
-    		<p>This time, we're going to aggregate based on a field in our accidents data. We've got two person-oriented columns in our data PERSONS and FATALS. Let's choose FATALS to see how many deaths due to road accidents there have been per county.</p>
-    		<p>Make sure <strong>Statistical method for attribute aggregation</strong> is still set to sum.</p>
-    		<p>Set the field name and filename and path and click OK.</p>
+    		<p>Once you have all that set, click OK.</p>
     		<p>Open the newly added shapefile attribute table. You'll see we've now got two additional columns: <strong>PNTCNT</strong> and <strong>FATALS_sum</strong>.</p>
     		<ul>
       		<li><strong>PNTCNT</strong> tells us how many accidents happened in the county and</li>

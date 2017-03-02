@@ -31,3 +31,8 @@ h3{
     border:#cccccc 1px solid;
     padding:10px 20px;
 }
+
+.protip{
+  font-style: italic;
+  padding-left:2em;
+}
