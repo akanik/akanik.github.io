@@ -236,6 +236,7 @@
         <p>You just projected that Florida shapefile into a new projection!</p>
         <p>Repeat the above steps for our accidents data. Change the filename of course.</p>
         <p>You'll see that when QGIS adds our new shapefiles to the map, it doesn't appear that anything has changed. But trust me, it has. You can't see it, but the way that these two shapefiles related to each other is vastly different from what it was before we projected the two layers.</p>
+        <p>Here's [a pretty good read on projections](http://docs.qgis.org/2.0/en/docs/gentle_gis_introduction/coordinate_reference_systems.html): what the differences are, common problems, how to work with them and more.</p>
       </div>
   		
   		<div class="row">
@@ -243,17 +244,42 @@
     		
     		<p>So, back to some fun stuff. Just before, we did a county-by-county analysis of accidents. But counties are kind of an arbitrary unit of measure when we're talking about density of accidents. As you can see, some counties are much larger that others. That is likely to influence our look at accidents by location, i.e. larger counties will obviously have more accidents. So let's look at a unit that is more equally balanced.</p>
     		<ul>
-      		
+      		<li><strong>Install MMQGIS Plugin.</strong> First, let's install a plugin that will help us create the hex bins: MMQGIS.
+      		  <ul>
+        		  <li>Go to <code>Plugins > Manage and Install Plugins...</code></li>
+        		  <li>Search for <em>mmqgis</em> and install the plugin</li>
+        		  <li>Once installed, you should see an additional top-level menu item: MMQGIS.</li>
+      		  </ul>
+      		</li>
+      		<li><strong>Add shapefiles to new map.</strong> Next, we need to add our projected shapefiles to a new map. Create a new map and add our projected Florida counties shapefile and our projected Florida accidents shapefile</li>
+      		<li><strong>Create hex bins.</strong> Select <code>MMQGIS > Create > Create Grid Layer.</code>
+      		  <ul>
+              <li><strong>Shape Type</strong> = Hexagons</li>
+              <li><strong>Units</strong> = Layer Units</li>
+              <li><strong>X Spacing and Y Spacing</strong> - this tells QGIS how large to make our hex bins. For these calculations, I'm 100% in debt to [Michael Corey's 2015 QGIS presentation](http://www.mikejcorey.com/nicar_qgis_advanced/)... I'm actually just gonna quote him: <br>"For the purposes of this exercise, let's say that we want hexagonal grids with an area of 20 square miles. Remember, the unit of our projection is meters, so we'll convert everything to meters. Twenty square miles is 51,799,800 square meters. We can use [this calculator](https://rechneronline.de/pi/hexagon.php) to figure out what short diagonal length will yield a hexagon with an area of 51,799,800 square meters. Spoiler alert: it's ~7,734 meters."<br> So, enter <code>7734</code> for our <strong>Y Spacing</strong>. The <strong>X Spacing</strong> we can leave. It will follow suit.</li>
+              <li><strong>Output Shapefile</strong> = <code>florida-grid.shp</code></li>
+        		</ul>
+      		</li>
+      		<li><strong>Perform points in polygon.</strong> This time, we're going to use the grids shapefile as our <strong>Input polygon vector layer</strong>.
+        		<ul>
+        		  <li>Click <code>Vector > Analysis Tools > Points in Polygon</code></li>
+          		<li><strong>Input polygon vector layer</strong> = <code>florida_grid.shp</code></li>
+              <li><strong>Input point vector layer</strong> = Florida accidents</li>
+              <li>We don't want to change <strong>Input point vector layer attributes to aggregate</strong> or <strong>Statistical method for attribute aggregation</strong> right now.</li>
+              <li><strong>Output count field name</strong> - the column name of the new column we'll be creating with this option.</li>
+              <li><strong>Output Shapefile > Browse</strong> = <code>florida-accidents-in-bins.shp</code></li>
+            </ul>
+          </li>
+          <li><strong>Filter out bins without accidents.</strong>
+            <ul>
+              <li>Right click <code>florida-accidents-in-bins.shp</code></li>
+              <li><strong>Expression</strong> = <code>"PNTCNT" > 0</code></li>
+              <li>Click OK</li>
+            </ul>
+          </li>
+          <li><strong>Color-code bins so we can see what's up!</strong></li>
     		</ul>
-    		<p>First, let's install a plugin that will help us create the hex bins: MMQGIS.</p>
-    		<p>Go to <code>Plugins > Manage and Install Plugins...</code></p>
-    		<p>Search for <em>mmqgis</em> and install the plugin.</p>
-    		<p>Once installed, you should see an additional menu item: MMQGIS.</p>
-    		<p>Select <code>MMQGIS > Create > Create Grid Layer.</code></p>
-    		<ul>
-        		<li><strong>Shape Type</strong> = Hexagons</li>
-        		<li><strong>Units</strong> = Layer Units</li>
-    		</ul>
+    		
   		</div>
   
   		<div class="row">
