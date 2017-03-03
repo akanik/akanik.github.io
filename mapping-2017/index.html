@@ -19,71 +19,55 @@
       				<h1>QGIS II: Manipulating, editing and analyzing geographic data</h1>
       				<p class="lead">NICAR 2017<br>
         				      Jacksonville, FL<br>
-        				      City Terrace 5<br>
+        				      City Terrace 9<br>
                       Friday, March 3, 3:30 - 4:30pm
       				</p>
       				<p>Alexandra Kanik (<a href="https://twitter.com/act_rational">@act_rational</a>)</p>
       			</div>
       			<div class="col-lg-4 col-md-4 col-sm-12">
-      				<p>Dive even deeper into data mapping in this continuation of QGIS I. This class will cover joining data tables to maps, aggregating point data for easier analysis and preparing geographic data for display online. It is strongly recommended that you take QGIS I immediate preceding this session, but it is not a strict requirement. <div class="btn btn-default"><a href="https://www.dropbox.com/s/o0hzf0z4hwinou7/auto-accidents-data.tar.bz2?dl=0"><i class="glyphicon glyphicon-save-file"></i>Download the data (.bzip2)</a></div></p>
-      				<div><em><a href="https://www.dropbox.com/s/f8vyeau2cro0i18/auto-accidents-data.zip?dl=0">Or here's the zip</a></em></div>
+      				<p>Dive even deeper into data mapping in this continuation of QGIS I. This class will cover joining data tables to maps, aggregating point data for easier analysis and preparing geographic data for display online. It is strongly recommended that you take QGIS I immediate preceding this session, but it is not a strict requirement. <div class="btn btn-default"><a href="https://www.dropbox.com/s/474s22tbs90vb23/auto-accidents-data.zip?dl=0"><i class="glyphicon glyphicon-save-file"></i>Download the data (.zip)</a></div></p>
       			</div>
               </div>
   		</div>
   	</div>
   	<div class="container">
-    	
-  		<div class="row">
-    		<p>If you're new to QGIS and/or mapping, you should probably start here: link to QGIS I notes</p>
-    		<p>Here are some QGIS rules of thumb:</p>
-    		<ul>
-          <li>Know your shapefiles. Save and love your shapefiles. Don't worry too much about maps.</li>
-          <li>Filter <code>Accident Master.xlsx</code> sheet <code>accident</code> to Florida only and export as a csv</li>	
-    		</ul>
-  		</div>
   		
   		<div class="row">
     		<h2>Outline</h2>
     		<ul>
-          <li>Filtering and saving as new shapefile - 2 ways (in QGIS, there are always at least two ways)
-            <ul>
-              <li>Attribute table, sort by and select or create filter equation, save only selected</li>
-              <li>Right click shapefile and create filter equation</li>
-              <li>Remember to talk about filenames</li>
-            </ul>
-          </li>
-          <li>Aggregating data - create your own accidents in county file
-            <ul>
-              <li>Crash level</li>
-              <li>Fatality level</li>
-            </ul>
-          </li>	
-          <li>Computing new fields - % accidents that involved drunk driving</li>
-          <li>Projections - remember to talk about filenames</li>
-          <li>Hex bins for less weighted location analysis</li>
-          <li>Simplifying geometries</li>
-          <li>Export geojson</li>
+          <li><a href="#filter">Filtering and saving as new shapefiles</a></li>
+          <li><a href="#aggregate">Aggregating data</a></li>	
+          <li><a href="#compute">Computing new fields</a></li>
+          <li><a href="#projections">Projections</a></li>
+          <li><a href="#hexbin">Hex bins</a></li>
+          <li><a href="#prepare">Preparing data for online display</a></li>
     		</ul>
+    		
+    		<p><a href="#" target="_blank">Here are the notes from the first QGIS session.</a><br>
+    		<a target="_blank" href="https://github.com/akanik/akanik.github.io/wiki/NICAR-2017-Notes">Here's a list of other QGIS classes happening at NICAR17.</a></p>
   		</div>
   		
   		<div class="row">
     		
-    		<h2>Filtering and saving new vector files</h2>
+    		<h2 id="filter">Filtering and saving new shapefiles</h2>
     		
     		<p>More often than not, you're going to get more data than you want to use. For example, we've got county data for the entire United States, but we're just looking at Florida accidents.</p>
     		<p>Instead of making QGIS process that huge shapefile every time we make a change, let's filter out all the counties outside of Florida.</p>
-    		<p><strong>STEP 1:</strong> Open up a new QGIS project. Go to <code>Project > Project Properties</code> and check <strong>Enable 'on the fly' CRS transformation.</strong></p>
-    		<p><strong>STEP 2:</strong> Add vector layer <code>tl_2015_us_county.shp</code>.</p>
-    		<p><strong>STEP 3:</strong> As with most things in QGIS, there is more than one way to filter a shapefile. I'll show you my two favorites. There may be more:</p>
-    		<p><em>Option 1:</em><br>
-        Right click the <code>tl_2015_us_county.shp</code> layer and select <strong>Open Attribute Table.</strong> In the top menu bar of the attribute table pop up you should see an icon that looks like an E on top of a yellow square. <img src="https://docs.qgis.org/2.14/en/_images/mIconExpressionSelect.png" />.</p>
-    		<h3>{Insert open-attribute-table.png here}</h3>
+  		  <p><strong>Open a new map.</strong> Go to <code>Project > Project Properties</code> and check <strong>Enable 'on the fly' CRS transformation.</strong></p>
+        <p><strong>Add US counties.</strong> Add vector layer <code>tl_2015_us_county.shp</code> to the map.</p>
+        <p><strong>Filter.</strong> As with most things in QGIS, there is more than one way to filter a shapefile. I'll show you my two favorites.</p>
+        
+        <h3>Select and save</h3>
+        <p>Right click the <code>tl_2015_us_county.shp</code> layer and select <strong>Open Attribute Table.</strong></p>
+        <p>In the top menu bar of the attribute table pop up you should see an icon that looks like an E on top of a yellow square. <img src="https://docs.qgis.org/2.14/en/_images/mIconExpressionSelect.png" />. Click that.</p>
+        <img class="img-responsive" src="img/open-attribute-table.png" alt="open attribute table">
     		
-    		<p>You should get another popup with some drop down options and a large textarea. Click on <strong>Fields and Values</strong>. What drops down should look familiar to you: it's all the available fields on this shapefile. We're only interested in the first one though, <strong>STATEFP</strong>. Give that field a double click and you should see it appear in the textarea to the left. Then, using either the helper functions above the textarea or your keyboard type an equals (=) sign and then number 12. Then click the "Select" button at the bottom.</p>
+        <p>You should get another popup with some drop down options and a large textarea. Click on <strong>Fields and Values</strong>. What drops down should look familiar to you: it's all the available fields on this shapefile. We're only interested in the first one though, <strong>STATEFP</strong>. Give that field a double click and you should see it appear in the textarea to the left. Then, type an equals (=) sign and number 12. The whole equation is <code>STATEFP = 12</code></p>
+        <p>Click "Select".</p>
     		
     		<div class="protip">
       		<p>PROTIP: If you're trying to filter by a field but you don't know all the values available to you in that field, QGIS will let you know.</p>
-      		<h3>{Insert advanced-filtering.gif here}</h3>
+      		<img class="img-responsive" src="img/advanced-filtering.gif">
         </div>
         
         <p>QGIS is a subtle beast. Clicking "Select" seemingly does nothing, but if we close out of this popup and the attribute table popup, and zoom into Florida on our U.S. counties shapefile, you'll see she's all yellow! That means we've selected all the counties in Florida.</p>
@@ -96,21 +80,23 @@
           <li><strong>Add saved file to map</strong></li>
     		</ul>
     		
-    		<h3>{Insert save-selected.png here}</h3>
+    		<img class="img-responsive" src="img/save-selected.png" />
     		
     		<p>Now we have just the state of Florida as its own shapefile.</p>
         
-        <p><em>Option 2:</em> <br>
-        Right click the <code>tl_2015_us_county.shp</code> layer and select "Filter". You should see a very similar popup to the one we had before. And we're going to do just what we did last time, double click the STATEFP field and add <code>= 12</code> to the end. With this dialog box we get the option to test our filter, so go ahead and click "Test" once you've entered the query into the filter expression textarea.</p>
+        <h3>Option 2:</h3>
+        <p>Right click the <code>tl_2015_us_county.shp</code> layer and select "Filter".</p>
+        <p>You should see a very similar popup to the one we had before. And we're going to do just what we did last time, enter <code>STATEFP = 12</code>.</p>
+        <p>With this dialog box we get the option to test our filter, so go ahead and click "Test" once you've entered the query into the filter expression textarea.</p>
         <p>You might have received an error message that looks like this:</p>
         
-        <h3>{Insert select-error.png here}</h3>
+        <img class="img-responsive" src="img/select-error.png" alt="select error" />
         
-        <p>Sometimes QGIS is a jerkface and it imports what should be numbers as text. All we've got to do to fix this error is add some double quotes around the number 12. Now when we hit "Test" we should get another popup that tells us that "The where clause returned 67 row(s)". This information should make us very happy because there are, in fact, 67 counties in Florida.</p>
+        <p>Sometimes QGIS is a jerkface and it imports numbers as text. All we've got to do to fix this error is add some double quotes around the number 12. Now when we hit "Test" we should get another popup that tells us that "The where clause returned 67 row(s)". This information should make us very happy because there are, in fact, 67 counties in Florida.</p>
         <p>Click "OK" and you should see that what was once the U.S. is now only Florida. However, if we removed our <code>tl_2015_us_county.shp</code> layer now and added it back, we'd see that it was once again the entire U.S. We still need to save this as its own shapefile.</p>
         <p>Again, as we did before, right click the U.S. counties shapefile and select "Save as...".</p>
         <ul>
-          <li><strong>Filter = ESRI Shapefile</strong> - there lots of options but let's stick with the shapefile for now.</li>
+          <li><strong>Filter</strong> = ESRI Shapefile</li>
           <li><strong>Save as</strong> - Save your new shapefile in its own folder with a name that is both descriptive of WHERE IT CAME FROM and WHAT IT IS NOW. I'm going to call mine <code>tl_2015_fl_county</code> because that reminds we that I got this original counties shapefile from the Census Bureau (tigerline) and that it's now a Florida-specific counties shapefile. Naming is important.</li>
           <li><strong>CRS</strong> - Leave as is for now.</li>
           <li>No need to check <strong>Save only selected features</strong></li>
@@ -121,7 +107,7 @@
   		</div>
   		
   		<div class="row">
-    		<h2>Aggregating point data</h2>
+    		<h2 id="aggregate">Aggregating point data</h2>
     		
     		<p>Last session you saw how to join county accident data to your shapefile. But what if you don't have that county-by-county accident data? Never fear! We can create that data right in QGIS using <code>Points in Polygon</code>.</p>
     		<p>Let's check out two different takes on aggregating this accident data.</p>
@@ -129,6 +115,9 @@
     		<h3>Take 1: Crash-Level Aggregation</h3>
     		
     		<p>Click <code>Vector > Analysis Tools > Points in Polygon</code></p>
+    		
+    		<img src="img/points-in-polygon-1.png" class="img-responsive" />
+    		
     		<ul>
     		    <li><strong>Input polygon vector layer</strong> = our Florida counties</li>
             <li><strong>Input point vector layer</strong> = our Florida accidents</li>
@@ -157,63 +146,84 @@
       		<li><strong>PNTCNT</strong> tells us how many accidents happened in the county and</li>
       		<li><strong>FATALS_sum</strong> tells us how many fatalities happened in the county.</li>
         </ul>
+        
+        <img src="img/points-in-polygon-2.png" class="img-responsive" />
   		</div>
   		
   		<div class="row">
-        <h2>Calculating New Fields</h2>
+        <h2 id="compute">Computing New Fields</h2>
         <p>At this point, we could export our data as a CSV, bring it into an editor like Excel, and calculate things like percent of accidents that involve drunk drivers. Buy go through all those steps. Let's do it all in QGIS!</p>
+        <p>Open a new QGIS map</p>
+        <p>Add the Florida counties shapefile you created earlier</p>
+        <p>Add the accidents data</p>
+        <p>Filter the accidents data to include only accidents that involve a drunk driver</p>
+        <p>Save filtered data as its own shapefile called <code>dd-accidents.shp</code>. Make sure to add it to the map when saving.</p>
+        <p>Clear the filter on your original accidents data so you now have two accidents shapefiles on your map: all accidents and drunk-driving accidents.</p>
+        
+        <img src="img/calculate-fields-2.png" class="img-responsive"/>
+        
+        <p>Follow the Crash-Level Aggregation steps above to create a new Florida counties shapefile that counts total accidents per county:</p>
+        
         <ul>
-          <li>Open a new QGIS map</li>
-          <li>Add the Florida counties shapefile you created earlier</li>
-          <li>Add the accidents data</li>
-          <li>Filter the accidents data to include only accidents that involve a drunk driver</li>
-          <li>Save filtered data as its own shapefile called <code>dd-accidents.shp</code>. Make sure to add it to the map when saving.</li>
-          <li>Clear the filter on your original accidents data so you now have two accidents shapefiles on your map: all accidents and drunk-driving accidents.</li>
-          <li>Follow the Crash-Level Aggregation steps above to create a new Florida counties shapefile that counts total accidents per county:
-            <ul>
-        		  <li><strong>Input polygon vector layer</strong> = Florida counties</li>
-              <li><strong>Input point vector layer</strong> = all accidents</li>
-              <li><strong>Input point vector layer attributes to aggregate</strong> - don't check anything</li>
-              <li><strong>Statistical method for attribute aggregation</strong> = sum</li>
-              <li><strong>Output count fieled name</strong> = totalCNT</li>
-              <li><strong>Output Shapefile</strong> = <code>accidents-in-county.shp</code></li>
-        		</ul>
-          </li>
-          <li>Create another accident aggregation shapefile, this time using the newly create <code>accidents-in-county.shp</code> and the <code>dd-accidents.shp</code>
-            <ul>
-        		  <li><strong>Input polygon vector layer</strong> = <code>accidents-in-county.shp</code></li>
-              <li><strong>Input point vector layer</strong> = <code>dd-accidents.shp</code></li>
-              <li><strong>Input point vector layer attributes to aggregate</strong> - don't check anything</li>
-              <li><strong>Statistical method for attribute aggregation</strong> = sum</li>
-              <li><strong>Output count fieled name</strong> = ddCNT</li>
-              <li><strong>Output Shapefile</strong> = <code>dd-accidents-in-county.shp</code></li>
-        		</ul>
-          </li>
-          <li>Open the attribute table of the shapefile we just created - <code>dd-accidents-in-county.shp</code>. It should have two columns at the end: <strong>totalCNT</strong> and <strong>ddCNT</strong>.</li>
-          <li>Click the Open Field Calculator button <img src="https://docs.qgis.org/2.2/en/_images/mActionCalculateField.png" /></li>
-          <li>Create a new field that calculates the percent of accidents that involve drunk drivers by county:
-            <ul>
-              <li><strong>Create a new field</strong> - check this</li>
-              <li><strong>Output field name</strong> = percDD</li>
-              <li><strong>Output field type</strong> = Decimal number (real)</li>
-              <li><strong>Output field length</strong> = 10</li>
-              <li><strong>Precision</strong> = 5</li>
-              <li><strong>Expression</strong> = <code>("ddCNT" / "totalCNT")*100</code></li>
-            </ul>
-          </li>
-          <li>Click OK.</li>
+    		  <li><strong>Input polygon vector layer</strong> = Florida counties</li>
+          <li><strong>Input point vector layer</strong> = all accidents</li>
+          <li><strong>Input point vector layer attributes to aggregate</strong> - don't check anything</li>
+          <li><strong>Statistical method for attribute aggregation</strong> = sum</li>
+          <li><strong>Output count fieled name</strong> = totalCNT</li>
+          <li><strong>Output Shapefile</strong> = <code>accidents-in-county.shp</code></li>
+    		</ul>
+    		
+    		<img src="img/calculate-fields-3.png" class="img-responsive"/>
+    		
+        <p>Create another accident aggregation shapefile, this time using the newly create <code>accidents-in-county.shp</code> and the <code>dd-accidents.shp</code></p>
+        
+        <ul>
+    		  <li><strong>Input polygon vector layer</strong> = <code>accidents-in-county.shp</code></li>
+          <li><strong>Input point vector layer</strong> = <code>dd-accidents.shp</code></li>
+          <li><strong>Input point vector layer attributes to aggregate</strong> - don't check anything</li>
+          <li><strong>Statistical method for attribute aggregation</strong> = sum</li>
+          <li><strong>Output count fieled name</strong> = ddCNT</li>
+          <li><strong>Output Shapefile</strong> = <code>dd-accidents-in-county.shp</code></li>
+    		</ul>
+    		
+    		<img src="img/calculate-fields-4.png" class="img-responsive"/>
+    		
+        <p>Open the attribute table of the shapefile we just created - <code>dd-accidents-in-county.shp</code>. It should have two columns at the end: <strong>totalCNT</strong> and <strong>ddCNT</strong>.</p>
+        <p>Click the Open Field Calculator button <img src="https://docs.qgis.org/2.2/en/_images/mActionCalculateField.png" /></p>
+        
+        <img src="img/calculate-fields-5.png" class="img-responsive"/>
+        
+        <p>Create a new field that calculates the percent of accidents that involve drunk drivers by county:</p>
+        <ul>
+          <li><strong>Create a new field</strong> - check this</li>
+          <li><strong>Output field name</strong> = percDD</li>
+          <li><strong>Output field type</strong> = Decimal number (real)</li>
+          <li><strong>Output field length</strong> = 10</li>
+          <li><strong>Precision</strong> = 5</li>
+          <li><strong>Expression</strong> = <code>("ddCNT" / "totalCNT")*100</code></li>
         </ul>
+        
+        <img src="img/calculate-fields-6.png" class="img-responsive"/>
+        
+        <p>Click OK.</p>
         <p>When you open the attribute table on <code>dd-accidents-in-county.shp</code>, you should another custom column: <strong>percDD</strong></p>
+        
+        <img src="img/calculate-fields-7.png" class="img-responsive"/>
+        
       </div>
       
       <div class="row">
-        <h2>Projections</h2>
+        <h2 id="projections">Projections</h2>
         
         <p>And now let's talk about everyone's favorite mapping topic: projections. Some year maybe we'll get someone really smart to teach a session on projections alone. But this is not that year.</p>
         <p>Today, we'll just go over the practical side of projecting. The stuff that'll help you stay sane as you work with data in QGIS.</p>
         <h3>On The Fly Projecting</h3>
         <p>On-the-fly projecting is QGIS's way of trying to make your life easier. It allows you to add shapefiles of different projects to the same map and they appear inline. HOWEVER, when you're trying to do proximity analyses, like calculating distance or area, you're gonna be in a world of pain if you rely on on-the-fly projecting.</p>
-        <p>So let's see how to do this correctly.</p>
+        <p>So let's see how you project shapefiles correctly in QGIS.</p>
+        <h3>Projecting layers</h3>
+        
+        <img src="img/projections-utm16n.png" class="img-responsive"/>
+        
         <ul>
           <li>Start a fresh map</li>
           <li>Add your Florida shapefile</li>
@@ -236,54 +246,80 @@
         <p>You just projected that Florida shapefile into a new projection!</p>
         <p>Repeat the above steps for our accidents data. Change the filename of course.</p>
         <p>You'll see that when QGIS adds our new shapefiles to the map, it doesn't appear that anything has changed. But trust me, it has. You can't see it, but the way that these two shapefiles related to each other is vastly different from what it was before we projected the two layers.</p>
-        <p>Here's [a pretty good read on projections](http://docs.qgis.org/2.0/en/docs/gentle_gis_introduction/coordinate_reference_systems.html): what the differences are, common problems, how to work with them and more.</p>
+        <p>Here's <a href="http://docs.qgis.org/2.0/en/docs/gentle_gis_introduction/coordinate_reference_systems.html" target="_blank">a pretty good read on projections</a>: what the differences are, common problems, how to work with them and more.</p>
       </div>
   		
   		<div class="row">
-    		<h2>Hex-bins</h2>
+    		<h2 id="hexbin">Hexbins</h2>
     		
-    		<p>So, back to some fun stuff. Just before, we did a county-by-county analysis of accidents. But counties are kind of an arbitrary unit of measure when we're talking about density of accidents. As you can see, some counties are much larger that others. That is likely to influence our look at accidents by location, i.e. larger counties will obviously have more accidents. So let's look at a unit that is more equally balanced.</p>
-    		<ul>
-      		<li><strong>Install MMQGIS Plugin.</strong> First, let's install a plugin that will help us create the hex bins: MMQGIS.
-      		  <ul>
-        		  <li>Go to <code>Plugins > Manage and Install Plugins...</code></li>
-        		  <li>Search for <em>mmqgis</em> and install the plugin</li>
-        		  <li>Once installed, you should see an additional top-level menu item: MMQGIS.</li>
-      		  </ul>
-      		</li>
-      		<li><strong>Add shapefiles to new map.</strong> Next, we need to add our projected shapefiles to a new map. Create a new map and add our projected Florida counties shapefile and our projected Florida accidents shapefile</li>
-      		<li><strong>Create hex bins.</strong> Select <code>MMQGIS > Create > Create Grid Layer.</code>
-      		  <ul>
-              <li><strong>Shape Type</strong> = Hexagons</li>
-              <li><strong>Units</strong> = Layer Units</li>
-              <li><strong>X Spacing and Y Spacing</strong> - this tells QGIS how large to make our hex bins. For these calculations, I'm 100% in debt to [Michael Corey's 2015 QGIS presentation](http://www.mikejcorey.com/nicar_qgis_advanced/)... I'm actually just gonna quote him: <br>"For the purposes of this exercise, let's say that we want hexagonal grids with an area of 20 square miles. Remember, the unit of our projection is meters, so we'll convert everything to meters. Twenty square miles is 51,799,800 square meters. We can use [this calculator](https://rechneronline.de/pi/hexagon.php) to figure out what short diagonal length will yield a hexagon with an area of 51,799,800 square meters. Spoiler alert: it's ~7,734 meters."<br> So, enter <code>7734</code> for our <strong>Y Spacing</strong>. The <strong>X Spacing</strong> we can leave. It will follow suit.</li>
-              <li><strong>Output Shapefile</strong> = <code>florida-grid.shp</code></li>
-        		</ul>
-      		</li>
-      		<li><strong>Perform points in polygon.</strong> This time, we're going to use the grids shapefile as our <strong>Input polygon vector layer</strong>.
-        		<ul>
-        		  <li>Click <code>Vector > Analysis Tools > Points in Polygon</code></li>
-          		<li><strong>Input polygon vector layer</strong> = <code>florida_grid.shp</code></li>
-              <li><strong>Input point vector layer</strong> = Florida accidents</li>
-              <li>We don't want to change <strong>Input point vector layer attributes to aggregate</strong> or <strong>Statistical method for attribute aggregation</strong> right now.</li>
-              <li><strong>Output count field name</strong> - the column name of the new column we'll be creating with this option.</li>
-              <li><strong>Output Shapefile > Browse</strong> = <code>florida-accidents-in-bins.shp</code></li>
-            </ul>
-          </li>
-          <li><strong>Filter out bins without accidents.</strong>
-            <ul>
-              <li>Right click <code>florida-accidents-in-bins.shp</code></li>
-              <li><strong>Expression</strong> = <code>"PNTCNT" > 0</code></li>
-              <li>Click OK</li>
-            </ul>
-          </li>
-          <li><strong>Color-code bins so we can see what's up!</strong></li>
+    		<p>So, back to some fun stuff. Just before, we did a county-by-county analysis of accidents. But counties are kind of an arbitrary unit of measure when we're talking about density of accidents. As you can see, some counties are much larger than others. That is likely to influence location-based analysis, i.e. larger counties will obviously have more accidents. So let's look at a unit that is more equally balanced.</p>
+      		
+        <p><strong>Install MMQGIS Plugin.</strong> First, let's install a plugin that will help us create the hex bins: MMQGIS.</p>
+        
+        <img src="img/hex-bin-mmqgis-install.png" class="img-responsive" />
+  		  
+  		  <ul>
+    		  <li>Go to <code>Plugins > Manage and Install Plugins...</code></li>
+    		  <li>Search for <em>mmqgis</em> and install the plugin</li>
+    		  <li>Once installed, you should see an additional top-level menu item: MMQGIS.</li>
+  		  </ul>
+  		  
+        <p><strong>Add shapefiles to new map.</strong> Next, we need to add our projected shapefiles to a new map. Create a new map and add our projected Florida counties shapefile and our projected Florida accidents shapefile. This analysis will not work if we don't use our PROJECTED shapefiles.</p>
+        <p><strong>Create hex bins.</strong> Select <code>MMQGIS > Create > Create Grid Layer.</code></p>
+        
+        <img src="img/hexbins-grid-create.png" class="img-responsive" />
+        
+  		  <ul>
+          <li><strong>Shape Type</strong> = Hexagons</li>
+          <li><strong>Units</strong> = Layer Units</li>
+          <li><strong>X Spacing and Y Spacing</strong> - this tells QGIS how large to make our hex bins. For these calculations, I'm 100% in debt to <a href="http://www.mikejcorey.com/nicar_qgis_advanced/" target="_blank">Michael Corey's 2015 QGIS presentation</a>... I'm actually just gonna quote him: <br>
+          "For the purposes of this exercise, let's say that we want hexagonal grids with an area of 20 square miles. Remember, the unit of our projection is meters, so we'll convert everything to meters. Twenty square miles is 51,799,800 square meters. We can use [this calculator](https://rechneronline.de/pi/hexagon.php) to figure out what short diagonal length will yield a hexagon with an area of 51,799,800 square meters. Spoiler alert: it's ~7,734 meters."<br> 
+          So, enter <code>7734</code> for our <strong>Y Spacing</strong>. The <strong>X Spacing</strong> we can leave. It will follow suit.</li>
+          <li><strong>Output Shapefile</strong> = <code>florida-grid.shp</code></li>
     		</ul>
+      
+        <p><strong>Perform points in polygon.</strong> This time, we're going to use the grids shapefile as our <strong>Input polygon vector layer</strong>.</p>
+        
+    		<ul>
+    		  <li>Click <code>Vector > Analysis Tools > Points in Polygon</code></li>
+      		<li><strong>Input polygon vector layer</strong> = <code>florida_grid.shp</code></li>
+          <li><strong>Input point vector layer</strong> = Florida accidents</li>
+          <li>We don't want to change <strong>Input point vector layer attributes to aggregate</strong> or <strong>Statistical method for attribute aggregation</strong> right now.</li>
+          <li><strong>Output count field name</strong> - the column name of the new column we'll be creating with this option.</li>
+          <li><strong>Output Shapefile > Browse</strong> = <code>florida-accidents-in-bins.shp</code></li>
+        </ul>
+        
+        <p><strong>Filter out bins without accidents.</strong></p>
+        
+        <ul>
+          <li>Right click <code>florida-accidents-in-bins.shp</code></li>
+          <li><strong>Expression</strong> = <code>"PNTCNT" > 0</code></li>
+          <li>Click OK</li>
+        </ul>
+        
+        <p><strong>Color-code bins so we can see what's up!</strong></p>
+        
+        <img src="img/hexbins-results.png" class="img-responsive" />
     		
   		</div>
   
   		<div class="row">
-      		<h2>Preparing data for online display</h2>
+    		<h2 id="prepare">Preparing data for online display</h2>
+    		<h3>Saving geojson</h3>
+    		<p>For most interactive maps, you're going to want to save your map data as a <code>geojson</code> file. I usually display interactive mapping data in <a href="http://leafletjs.com/">Leaflet.js</a>.</p>
+    		    		
+    		<ul>
+      		<li>Right click the shapefile and select <strong>Save as...</strong></li>
+      		<li><strong>Format</strong> =  GeoJSON</li>
+      		<li><strong>Save as</strong> - you can save as the same filename, but it'll have the <code>geojson</code> file extension if you set Format to GeoJSON.</li>
+      		<li><strong>CRS</strong> - the CRS is better set to something like <code>WGS 84</code>. This has to do with the default projection of mapping programs like Leaflet.</li>
+    		</ul>
+    		
+    		<h3>Simplifying Geometries</h3>
+    		<p>Simplifying geometries is sometimes necessary when you're preparing your geographic data for display online. Overly-detailed data can cause programs like Leaflet.js to load suuuuuuuper slowly.</p>
+    		<p>There are ways of doing this in QGIS, but honestly... using <a href="http://mapshaper.org/">MapShaper</a> is much easier and more efficient. MapShaper lets you see how your adjustments are going to affect the quality of you shapefile in realtime.</p>
+    		
+    		<img src="img/mapshaper.gif" class="img-responsive" />
   		</div>
   	</div>
   </body>
