@@ -1,12 +1,21 @@
+body{
+	margin: 0;
+	font-size: 1.75em;
+	line-height: 1.5em;
+}
+
 figcaption{
 	color:#505050;
 	font-style: italic;
 }
 
-body{
-	margin-bottom: 5em;
-	font-size: 1.75em;
-	line-height: 1.5em;
+.jumbotron{
+  background:#e1e1e1;
+  padding-top:2rem;
+}
+
+.jumbotron .row{
+  margin:0;
 }
 
 .jumbotron h1{
@@ -15,10 +24,16 @@ body{
 
 img.img-responsive{
 	margin:3em 0;
+	max-width: 100%;
+}
+
+h2{
+  font-weight: 500;
 }
 
 h3{
-	font-weight: 300;
+	font-weight: 500;
+	font-size: 1.5em;
 }
 
 .row{
