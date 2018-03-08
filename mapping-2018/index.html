@@ -42,8 +42,8 @@
           <li><a href="#prepare">Preparing data for online display</a></li>
     		</ol>
     		
-    		<p><a href="#" target="_blank">Here are the notes from the first QGIS session.</a><br>
-    		<a target="_blank" href="https://github.com/akanik/akanik.github.io/wiki/NICAR-2017-Notes">Here's a list of other QGIS classes happening at NICAR17.</a></p>
+    		<!--<p><a href="#" target="_blank">Here are the notes from the first QGIS session.</a><br>
+    		<a target="_blank" href="https://github.com/akanik/akanik.github.io/wiki/NICAR-2017-Notes">Here's a list of other QGIS classes happening at NICAR17.</a></p>-->
   		</div>
   		
   		
@@ -58,7 +58,7 @@
         <p>So let's see how you project shapefiles correctly in QGIS.</p>
         
         <h3>Projecting layers</h3>
-        <img src="img/projections-utm16n.png" class="img-responsive"/>
+        <img src="img/qgis-proj1.png" class="img-responsive"/>
         <ul>
           <li>Start a fresh map</li>
           <li>Add your Illinois County shapefile <code>IL_BNDY_County_Py</code></li>
@@ -94,7 +94,7 @@
     		
     		<p>Click <code>Vector > Analysis Tools > Points in Polygon</code></p>
     		
-    		<img src="img/points-in-polygon-1.png" class="img-responsive" />
+    		<img src="img/qgis-pip.png" class="img-responsive" />
     		
     		<ul>
     		    <li><strong>Input polygon vector layer</strong> = <code>IL_BNDY_County_Py_proj26971</code></li>
@@ -115,14 +115,14 @@
           <li><strong>Input point vector layer</strong> = <code>tattoo_parlours_customers_proj26971</code></li>
           <li><strong>Input point vector layer attributes to aggregate</strong> = customers</li>
           <li><strong>Statistical method for attribute aggregation</strong> = sum</li>
-          <li><strong>Output count field name</strong> - the column name of the new column we'll be creating with this option. Let's use <code>CUSTOMER_sum</code></li>
+          <li><strong>Output count field name</strong> - the column name of the new column we'll be creating with this option. Let's use <code>CUST_sum</code></li>
           <li><strong>Output Shapefile > Browse</strong> - this allows you to set the path and filename for the shapefile we're creating. Let's use <code>IL_BNDY_County_Py_CUSTOMERS_proj26971</code></li>
     		</ul>
     		<p>Once you have all that set, click OK.</p>
-    		<p>Open the newly added shapefile attribute table. You'll see we've now got an additional column <strong>CUSTOMER_sum</strong>. This column tells us how many customers are in the each county.</li>
+    		<p>Open the newly added shapefile attribute table. You'll see we've now got an additional column <strong>CUST_sum</strong>. This column tells us how many customers are in the each county.</li>
         </ul>
         
-        <img src="img/points-in-polygon-2.png" class="img-responsive" />
+        <img src="img/qgis-pip2.png" class="img-responsive" />
   		</div>
   		
   		
@@ -137,19 +137,19 @@
         <p>Create a new field that calculates the average number of customers per parlour:</p>
         <ul>
           <li><strong>Create a new field</strong> - check this</li>
-          <li><strong>Output field name</strong> = avgCustomers</li>
+          <li><strong>Output field name</strong> = avgCUST</li>
           <li><strong>Output field type</strong> = Whole number (integer)</li>
           <li><strong>Output field length</strong> = 10</li>
           <li><strong>Precision</strong> = 0</li>
           <li><strong>Expression</strong> = <code>"CUSTOMER_sum" / "PNTCNT"</code></li>
         </ul>
         
-        <img src="img/calculate-fields-6.png" class="img-responsive"/>
+        <img src="img/qgis-new-field.png" class="img-responsive"/>
         
         <p>Click OK.</p>
-        <p>When you open the attribute table on <code>IL_BNDY_County_Py_CUSTOMERS_proj26971</code>, you should your custom column: <strong>avgCustomers</strong></p>
+        <p>When you open the attribute table on <code>IL_BNDY_County_Py_CUSTOMERS_proj26971</code>, you should your custom column: <strong>avgCUST</strong></p>
         
-        <img src="img/calculate-fields-7.png" class="img-responsive"/>
+        <img src="img/qgis-new-field-2.png" class="img-responsive"/>
         
       </div>
   		
@@ -166,7 +166,7 @@
         <p>Right click the <code>IL_BNDY_County_Py_proj26971</code> layer and select <strong>Open Attribute Table.</strong></p>
         
         <p>In the top menu bar of the attribute table pop up you should see an icon that looks like an E on top of a yellow square. <img src="https://docs.qgis.org/2.14/en/_images/mIconExpressionSelect.png" />. Click that.</p>
-        <img class="img-responsive" src="img/open-attribute-table.png" alt="open attribute table">
+        <img class="img-responsive" src="img/qgis-open-attribute.png" alt="open attribute table">
     		
         <p>You should get another popup with some drop down options and a large textarea.</p>
         <ul>
@@ -184,7 +184,7 @@
           <li><strong>Add saved file to map</strong></li>
     		</ul>
     		
-    		<img class="img-responsive" src="img/save-selected.png" />
+    		<img class="img-responsive" src="img/qgis-save-selected.png" />
     		
     		<p>Now we have just the Cook County, Illinois as its own shapefile.</p>
       		
@@ -195,9 +195,41 @@
   		<div class="row">
     		<h2 id="hexbin">Buffers and Hexbins</h2>
     		
-    		<p>Now we're going to have a little fun. Let's use our tattoo parlour data and our tavern data to see which tattoo parlours are within 1 mile of a bar.</p>
+    		<p>Now we're going to have a little fun. Let's use our tattoo parlour data and our tavern data to see which tattoo parlours are within 500 feet of a bar.</p>
     		<p>This is obviously a silly application of this analysis. <a href="http://kycir.org/2018/02/01/behind-the-data-how-we-analyzed-louisville-trash-complaints/" target="_blank">Here's a real one though.</a></p>
-      		
+  		  
+        <p><strong>NOTE:</strong>This analysis will not work if we don't use our PROJECTED shapefiles.</p>
+        
+        <h3>Buffers</h3>
+        <p>Let's work on excluding all the tattoo parlours that are not within 1 mile of a bar.</p>
+        <p>Make sure you have your Cook County shapefile <code>IL_BNDY_County_Py_COOK_proj26971</code>, your tattoo parlours shapefile <code>tattoo_parlours_customers_proj26971</code> and your Chicago taverns shapefile <code>Chicago_TAVERN_Liquor_Licenses_proj26971</code>.</p>
+        <p>NOTE: for this analysis to work, we've got to have all of our shapefiles in the same projection.</p>
+        <ul>
+          <li>Go to <strong>Vector > Geoprocessing > Buffer(s)</strong></li>
+          <li><strong>Vector input layer:</strong> <code>Chicago_TAVERN_Liquor_Licenses_proj26971</code></li>
+          <li><strong>Buffer distance:</strong> <code>152</code> <em>(remember, all distances are going to be in the unit that the projection is in. If you projected your taverns appropriately, they should be in meters. 152 meters = 500 feet)</em></li>
+          <li><strong>Output Shapefile > Browse</strong> <code>chicago_tavern_buffers_proj26971</code></li>
+        </ul>
+        
+        <img class="img-responsive" src="img/qgis-buffer.png" />
+        
+        <p>You should see little halos appear around your taverns. Those are buffers!</p>
+        <p>Now we want to select only those tattoo parlours that fall within those 500 foot buffers.</p>
+        
+        <img class="img-responsive" src="img/qgis-buffer-2.png" />
+        
+        <ul>
+          <li>Go to <strong>Vector > Research Tools > Select by location</strong></li>
+          <li><strong>Select features in:</strong> <code>tattoo_parlours_customers_proj26971</code></li>
+          <li><strong>That intersect features in:</strong> <code>chicago_tavern_buffers</code></li>
+          <li><strong>Output Shapefile > Browse</strong> <code>chicago_tavern_buffers</code></li>
+        </ul>
+        
+        <img class="img-responsive" src="img/qgis-select-by-location.png" />
+        
+        
+        <h3>Hexbins</h3>
+        
         <p><strong>Install MMQGIS Plugin.</strong> First, let's install a plugin that will help us create the hex bins: MMQGIS.</p>
         
         <img src="img/hex-bin-mmqgis-install.png" class="img-responsive" />
@@ -207,25 +239,6 @@
     		  <li>Search for <em>mmqgis</em> and install the plugin</li>
     		  <li>Once installed, you should see an additional top-level menu item: MMQGIS.</li>
   		  </ul>
-  		  
-        <p><strong>NOTE:</strong>This analysis will not work if we don't use our PROJECTED shapefiles.</p>
-        
-        <h3>Buffers</h3>
-        <p>Let's work on excluding all the tattoo parlours that are not within 1 mile of a bar.</p>
-        <p>Make sure you have your Cook County shapefile <code>IL_BNDY_County_Py_COOK_proj26971</code>, your tattoo parlours shapefile <code>tattoo_parlours_customers_proj26971</code> and your Chicago taverns shapefile <code>Chicago_TAVERN_Liquor_Licenses_proj26971</code>.</p>
-        <p>NOTE: for this analysis to work, we've got to have all of our shapefiles projected in the same projection.</p>
-        <ul>
-          <li></li>
-        </ul>
-        
-        
-        
-        
-        
-        
-        
-        <h2>INSERT BIT ABOUT BUFFERING 1 MILE AROUND TAVERNS AND INCLUDING ONLY TATTOO PARLOURS IN THOSE BUFFER ZONES</h2>
-        
         
         <p><strong>Create hex bins.</strong> Select <code>MMQGIS > Create > Create Grid Layer.</code></p>
         
