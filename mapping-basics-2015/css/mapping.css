@@ -12,6 +12,10 @@ img.img-responsive{
 	margin:3em 0;
 }
 
+img{
+  max-width: 100%;
+}
+
 h3{
 	margin-top:2em;
 }
