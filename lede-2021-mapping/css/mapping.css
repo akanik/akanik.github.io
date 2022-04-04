@@ -1,0 +1,54 @@
+body{
+	margin: 0;
+	font-size: 1.75em;
+	line-height: 1.5em;
+}
+
+figcaption{
+	color:#505050;
+	font-style: italic;
+}
+
+.jumbotron{
+  background:#e1e1e1;
+  padding-top:2rem;
+}
+
+.jumbotron .row{
+  margin:0;
+}
+
+.jumbotron h1{
+    margin-top:0;
+}
+
+img.img-responsive{
+	margin:3em 0;
+	max-width: 100%;
+}
+
+h2{
+  font-weight: 500;
+}
+
+h3{
+	font-weight: 500;
+	font-size: 1.5em;
+}
+
+.row{
+    margin-top:25px;
+    margin-bottom: 25px;
+}
+
+.accordion{
+    background: #f1f1f1;
+    border-radius: 5pt;
+    border:#cccccc 1px solid;
+    padding:10px 20px;
+}
+
+.protip{
+  font-style: italic;
+  padding-left:2em;
+}

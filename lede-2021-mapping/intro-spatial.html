@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Intro to spatial data</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/mapping.css">
+    
+    <script src="js/jquery-2.1.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </head>
+  
+  <body>
+  	<div class="jumbotron">
+  		<div class="container">
+      		<div class="row">
+      			<div class="eight columns">
+      				<h1>Intro to spatial data</h1>
+      				<p class="lead">
+                      July 19
+      				</p>
+      				<p>Alexandra Kanik (<a href="https://twitter.com/act_rational">@act_rational</a>)</p>
+      			</div>
+      			<div class="four columns">
+      				<p>Introducing the concepts of spatial data. <!--<div class="btn btn-default"><a href="https://www.dropbox.com/s/1mvbe0by2a315w9/NICAR18-QGISI-QGISII-data.zip?dl=0"><i class="glyphicon glyphicon-save-file"></i>Download the data (.zip)</a></div>--></p>
+      			</div>
+              </div>
+  		</div>
+  	</div>
+  	<div class="container">
+  		
+  		<div class="row">
+    		<h2>Session outline</h2>
+    		<ol>
+      		<li><a href="#spatial-data">What is spatial data?</a></li>
+          <li><a href="#create-spatial">What can be turned into spatial data?</a></li>
+          <li><a href="#geocoding">Geocoding</a></li>
+          <li><a href="#finding-data">Finding spatial data</a></li>
+    		</ol>
+  		</div>
+  		
+  		
+  		<div class="row">
+        <h2 id="spatial-data">What is spatial data?</h2>
+        
+        <p>Spatial data is structured data that has geographic properties. Spatial data can be useful when trying to analyze physical relationships between things.</p>
+
+        <p>Spatial data are</p>
+        
+        <h3>On The Fly Projecting</h3>
+        <p>On-the-fly projecting is QGIS's way of trying to make your life easier. It allows you to add shapefiles of different projects to the same map and they appear inline. HOWEVER, when you're trying to do proximity analyses, like calculating distance or area, you're gonna be in a world of pain if you rely on on-the-fly projecting.</p>
+        <p>So let's see how you project shapefiles correctly in QGIS.</p>
+        
+        <h3>Projecting layers</h3>
+        <img src="img/qgis-proj1.png" class="img-responsive"/>
+        <ul>
+          <li>Start a fresh map</li>
+          <li>Add your Illinois County shapefile <code>IL_BNDY_County_Py</code></li>
+          <li>Right click the layer and select <strong>Save as...</strong>
+            <ul>
+              <li><strong>Format</strong> = ESRI Shapefile</li>
+              <li><strong>Save as</strong> = <code>IL_BNDY_County_Py_proj26971</code></li>
+              <li><strong>CRS</strong> =  click <img src="https://docs.qgis.org/2.8/en/_images/mActionCustomProjection.png" />
+                <ul>
+                  <li>Filter for <code>26971</code></li>
+                  <li>Select CRS <code>NAD83 / Illinois East</code></li>
+                  <li>Click OK</li>
+                </ul>
+              </li>
+              <li><strong>Add saved file to map</strong> = checked</li>
+              <li>Click OK</li>
+            </ul>
+          </li>
+        </ul>
+        <p>You just projected that Illinois shapefile into a new projection!</p>
+        <p>Repeat the above steps for our tattoo parlour data <code>tattoo_parlours_customers</code> and our <code>Chicago_TAVERN_Liquor_Licenses</code> data. Change the filenames of course.</p>
+        <p>You'll see that when QGIS adds our new shapefiles to the map, it doesn't appear that anything has changed. But trust me, it has. You can't see it, but the way that these two shapefiles relate to each other is vastly different from what it was before we projected the two layers.</p>
+        <p>Here's <a href="http://docs.qgis.org/2.0/en/docs/gentle_gis_introduction/coordinate_reference_systems.html" target="_blank">a pretty good read on projections</a>: what the differences are, common problems, how to work with them and more.</p>
+      </div>
+    
+  		
+  		<div class="row">
+    		<h2 id="aggregate">Aggregating point data</h2>
+    		
+    		<p>Counting the number of points in a given set of polygons is often useful. We will perform that analysis using <code>Points in Polygon</code>.</p>
+    		
+    		<h3>Parlours Per County Aggregation</h3>
+    		
+    		<p>Click <code>Vector > Analysis Tools > Points in Polygon</code></p>
+    		
+    		<img src="img/qgis-pip.png" class="img-responsive" />
+    		
+    		<ul>
+    		    <li><strong>Input polygon vector layer</strong> = <code>IL_BNDY_County_Py_proj26971</code></li>
+            <li><strong>Input point vector layer</strong> = <code>tattoo_parlours_customers_proj26971</code></li>
+            <li>We don't want to change <em>Input point vector layer attributes to aggregate</em> or <em>Statistical method for attribute aggregation</em> right now.</li>
+            <li><strong>Output count field name</strong> - the column name of the new column we'll be creating with this option. Default = <code>PNTCNT</code></li>
+            <li><strong>Output Shapefile > Browse</strong> - this allows you to set the path and filename for the shapefile we're creating. Let's use <code>IL_BNDY_County_Py_PARLOURS_proj26971</code></li>
+        </ul>
+    		<p>Once you have all that set, click OK.</p>
+    		<p>A new shapefile should have been added to our map. If we open up its attribute table we should see our new column <code>PNTCNT</code> at the end. The value in this column corresponds to the number of tattoo parlours in each county.</p>
+    		
+    		<h3>Customers Per County Aggregation</h3>
+    		
+    		<p>The above analysis is good if we want to total parlour count, but what if we want to visualize customers?</p>
+    		<p>Let's go back into that <code>Vector > Analysis Tools > Points in Polygon</code> section.</p>
+    		<ul>
+    		  <li><strong>Input polygon vector layer</strong> = <code>IL_BNDY_County_Py_PARLOURS_proj26971</code></li>
+          <li><strong>Input point vector layer</strong> = <code>tattoo_parlours_customers_proj26971</code></li>
+          <li><strong>Input point vector layer attributes to aggregate</strong> = customers</li>
+          <li><strong>Statistical method for attribute aggregation</strong> = sum</li>
+          <li><strong>Output count field name</strong> - the column name of the new column we'll be creating with this option. Let's use <code>CUST_sum</code></li>
+          <li><strong>Output Shapefile > Browse</strong> - this allows you to set the path and filename for the shapefile we're creating. Let's use <code>IL_BNDY_County_Py_CUSTOMERS_proj26971</code></li>
+    		</ul>
+    		<p>Once you have all that set, click OK.</p>
+    		<p>Open the newly added shapefile attribute table. You'll see we've now got an additional column <strong>CUST_sum</strong>. This column tells us how many customers are in the each county.</li>
+        </ul>
+        
+        <img src="img/qgis-pip2.png" class="img-responsive" />
+  		</div>
+  		
+  		
+  		<div class="row">
+        <h2 id="compute">Computing New Fields</h2>
+        <p>At this point, we could export our data as a CSV, bring it into an editor like Excel, and calculate things like average number of customers per parlour in each county. But why go through all those steps. Let's do it all in QGIS!</p>
+        <p>Open the attribute table of the shapefile we created earlier - <code>IL_BNDY_County_Py_CUSTOMERS_proj26971</code>.</p>
+        <p>Click the Open Field Calculator button <img src="https://docs.qgis.org/2.18/en/_images/mActionCalculateField.png" /></p>
+        
+        <img src="img/calculate-fields-5.png" class="img-responsive"/>
+        
+        <p>Create a new field that calculates the average number of customers per parlour:</p>
+        <ul>
+          <li><strong>Create a new field</strong> - check this</li>
+          <li><strong>Output field name</strong> = avgCUST</li>
+          <li><strong>Output field type</strong> = Whole number (integer)</li>
+          <li><strong>Output field length</strong> = 10</li>
+          <li><strong>Precision</strong> = 0</li>
+          <li><strong>Expression</strong> = <code>"CUSTOMER_sum" / "PNTCNT"</code></li>
+        </ul>
+        
+        <img src="img/qgis-new-field.png" class="img-responsive"/>
+        
+        <p>Click OK.</p>
+        <p>When you open the attribute table on <code>IL_BNDY_County_Py_CUSTOMERS_proj26971</code>, you should your custom column: <strong>avgCUST</strong></p>
+        
+        <img src="img/qgis-new-field-2.png" class="img-responsive"/>
+        
+      </div>
+  		
+  		
+  		<div class="row">
+    		
+    		<h2 id="filter">Filtering and saving new shapefiles</h2>
+    		
+    		<p>More often than not, you're going to get more data than you want to use.</p>
+    		<p>Instead of making QGIS process large shapefile every time you make a change, you can filter out features you're not interested in.</p>
+    		<p>Right now, we're going to focus in on Cook County, which is where Chicago is located.</p>
+        
+        <h3>Filtering</h3>
+        <p>Right click the <code>IL_BNDY_County_Py_proj26971</code> layer and select <strong>Open Attribute Table.</strong></p>
+        
+        <p>In the top menu bar of the attribute table pop up you should see an icon that looks like an E on top of a yellow square. <img src="https://docs.qgis.org/2.14/en/_images/mIconExpressionSelect.png" />. Click that.</p>
+        <img class="img-responsive" src="img/qgis-open-attribute.png" alt="open attribute table">
+    		
+        <p>You should get another popup with some drop down options and a large textarea.</p>
+        <ul>
+          <li>Click on <strong>Fields and Values</strong>. What drops down is all the available fields on this shapefile.</li>
+          <li>Double click <strong>CO_FIPS</strong>. You should see that field name surrounded by quotes appear in the textarea to the left.</li>
+          <li>Then, type an equals (=) sign and number 31. The whole equation is <code>CO_FIPS = 31</code></li>
+          <li>Click "Select".</li>
+        </ul>     
+        <p>Now we want to save this selection as its own shapefile, so right click the Illinois counties shapefile again and select "Save as...".</p>
+        <ul>
+          <li><strong>Format</strong> - ESRI Shapefile</li>
+          <li><strong>Save as</strong> - Save your new shapefile in its own folder with a name that is both descriptive of <u>where it came from</u> and <u>what it is now</u>. I'm going to call mine <code>IL_BNDY_County_Py_COOK_proj26971</code>. Naming is important.</li>
+          <li><strong>CRS</strong> - Leave as is for now.</li>
+          <li><strong>Save only selected features</strong> - If we don't do this, we're just saving our original Illinois counties shapefile as a copy of itself.</li>
+          <li><strong>Add saved file to map</strong></li>
+    		</ul>
+    		
+    		<img class="img-responsive" src="img/qgis-save-selected.png" />
+    		
+    		<p>Now we have just the Cook County, Illinois as its own shapefile.</p>
+      		
+  		</div>
+  		
+  
+  		
+  		<div class="row">
+    		<h2 id="hexbin">Buffers and Hexbins</h2>
+    		
+    		<p>Now we're going to have a little fun. Let's use our tattoo parlour data and our tavern data to see which tattoo parlours are within 500 feet of a bar.</p>
+    		<p>This is obviously a silly application of this analysis. <a href="http://kycir.org/2018/02/01/behind-the-data-how-we-analyzed-louisville-trash-complaints/" target="_blank">Here's a real one though.</a></p>
+  		  
+        <p><strong>NOTE:</strong>This analysis will not work if we don't use our PROJECTED shapefiles.</p>
+        
+        <h3>Buffers</h3>
+        <p>Let's work on excluding all the tattoo parlours that are not within 1 mile of a bar.</p>
+        <p>Make sure you have your Cook County shapefile <code>IL_BNDY_County_Py_COOK_proj26971</code>, your tattoo parlours shapefile <code>tattoo_parlours_customers_proj26971</code> and your Chicago taverns shapefile <code>Chicago_TAVERN_Liquor_Licenses_proj26971</code>.</p>
+        <p>NOTE: for this analysis to work, we've got to have all of our shapefiles in the same projection.</p>
+        <ul>
+          <li>Go to <strong>Vector > Geoprocessing > Buffer(s)</strong></li>
+          <li><strong>Vector input layer:</strong> <code>Chicago_TAVERN_Liquor_Licenses_proj26971</code></li>
+          <li><strong>Buffer distance:</strong> <code>152</code> <em>(remember, all distances are going to be in the unit that the projection is in. If you projected your taverns appropriately, they should be in meters. 152 meters = 500 feet)</em></li>
+          <li><strong>Output Shapefile > Browse</strong> <code>chicago_tavern_buffers_proj26971</code></li>
+        </ul>
+        
+        <img class="img-responsive" src="img/qgis-buffer.png" />
+        
+        <p>You should see little halos appear around your taverns. Those are buffers!</p>
+        <p>Now we want to select only those tattoo parlours that fall within those 500 foot buffers.</p>
+        
+        <img class="img-responsive" src="img/qgis-buffer-2.png" />
+        
+        <ul>
+          <li>Go to <strong>Vector > Research Tools > Select by location</strong></li>
+          <li><strong>Select features in:</strong> <code>tattoo_parlours_customers_proj26971</code></li>
+          <li><strong>That intersect features in:</strong> <code>chicago_tavern_buffers</code></li>
+          <li><strong>Output Shapefile > Browse</strong> <code>chicago_tavern_buffers</code></li>
+        </ul>
+        
+        <img class="img-responsive" src="img/qgis-select-by-location.png" />
+        
+        
+        <h3>Hexbins</h3>
+        
+        <p><strong>Install MMQGIS Plugin.</strong> First, let's install a plugin that will help us create the hex bins: MMQGIS.</p>
+        
+        <img src="img/hex-bin-mmqgis-install.png" class="img-responsive" />
+  		  
+  		  <ul>
+    		  <li>Go to <code>Plugins > Manage and Install Plugins...</code></li>
+    		  <li>Search for <em>mmqgis</em> and install the plugin</li>
+    		  <li>Once installed, you should see an additional top-level menu item: MMQGIS.</li>
+  		  </ul>
+        
+        <p><strong>Create hex bins.</strong> Select <code>MMQGIS > Create > Create Grid Layer.</code></p>
+        
+        <img src="img/hexbins-grid-create.png" class="img-responsive" />
+        
+  		  <ul>
+          <li><strong>Shape Type</strong> = Hexagons</li>
+          <li><strong>Units</strong> = Layer Units</li>
+          <li><strong>X Spacing and Y Spacing</strong> - this tells QGIS how large to make our hex bins. For these calculations, we're 100% in debt to <a href="http://www.mikejcorey.com/nicar_qgis_advanced/" target="_blank">Michael Corey's 2015 QGIS presentation</a>. We want hexagons with an area of 1 square mile. Our projections is in meters, so we'll need to convert that into meters. And then we'll need to use <a href="https://rechneronline.de/pi/hexagon.php" target="_blank">this calculator</a> to figure out the short diagonal length of the hexagon.<br>
+          1 sq. mile = 2,590,000 sq. meters</li>
+          <li>So, enter <code>1729</code> for our <strong>Y Spacing</strong>. The <strong>X Spacing</strong> we can leave. It will follow the y.</li>
+          <li><strong>Output Shapefile</strong> = <code>chicago-grid</code></li>
+    		</ul>
+      
+        <p><strong>Perform points in polygon.</strong> This time, we're going to use the grids shapefile as our <strong>Input polygon vector layer</strong>.</p>
+        
+    		<ul>
+    		  <li>Click <code>Vector > Analysis Tools > Points in Polygon</code></li>
+      		<li><strong>Input polygon vector layer</strong> = <code>chicago-grid</code></li>
+          <li><strong>Input point vector layer</strong> = Florida accidents</li>
+          <li>We don't want to change <strong>Input point vector layer attributes to aggregate</strong> or <strong>Statistical method for attribute aggregation</strong> right now.</li>
+          <li><strong>Output count field name</strong> - the column name of the new column we'll be creating with this option.</li>
+          <li><strong>Output Shapefile > Browse</strong> = <code>florida-accidents-in-bins.shp</code></li>
+        </ul>
+        
+        <p><strong>Filter out bins without accidents.</strong></p>
+        
+        <ul>
+          <li>Right click <code>florida-accidents-in-bins.shp</code></li>
+          <li><strong>Expression</strong> = <code>"PNTCNT" > 0</code></li>
+          <li>Click OK</li>
+        </ul>
+        
+        <p><strong>Color-code bins so we can see what's up!</strong></p>
+        
+        <img src="img/hexbins-results.png" class="img-responsive" />
+    		
+  		</div>
+  
+  		<div class="row">
+    		<h2 id="prepare">Preparing data for online display</h2>
+    		<h3>Saving geojson</h3>
+    		<p>For most interactive maps, you're going to want to save your map data as a <code>geojson</code> file. I usually display interactive mapping data in <a href="http://leafletjs.com/">Leaflet.js</a>.</p>
+    		    		
+    		<ul>
+      		<li>Right click the shapefile and select <strong>Save as...</strong></li>
+      		<li><strong>Format</strong> =  GeoJSON</li>
+      		<li><strong>Save as</strong> - you can save as the same filename, but it'll have the <code>geojson</code> file extension if you set Format to GeoJSON.</li>
+      		<li><strong>CRS</strong> - the CRS is better set to something like <code>WGS 84</code>. This has to do with the default projection of mapping programs like Leaflet.</li>
+    		</ul>
+    		
+    		<h3>Simplifying Geometries</h3>
+    		<p>Simplifying geometries is sometimes necessary when you're preparing your geographic data for display online. Overly-detailed data can cause programs like Leaflet.js to load suuuuuuuper slowly.</p>
+    		<p>There are ways of doing this in QGIS, but honestly... using <a href="http://mapshaper.org/">MapShaper</a> is much easier and more efficient. MapShaper lets you see how your adjustments are going to affect the quality of you shapefile in realtime.</p>
+    		
+    		<img src="img/mapshaper.gif" class="img-responsive" />
+  		</div>
+  	</div>
+  </body>
+
+</html>
