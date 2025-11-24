@@ -30,6 +30,9 @@ h1 {
   font-size: 20px;
   color: #666;
 }
+p{
+  font-size:1.875rem;
+}
 a,
 a:visited {
   color: #4774CC;
@@ -589,6 +592,13 @@ h2::after {
     width: 100%;
   }
 }
+#about ul{
+  margin-left:2rem;
+}
+#about ul li {
+  list-style-type: disc;
+  margin-bottom:.25rem;
+}
 .skill {
   margin-bottom: 1rem;
 }
@@ -598,6 +608,8 @@ img {
 }
 #projects,
 #about,
+#employment,
+#skills,
 #contact {
   padding-top: 100px;
   text-align: center;
