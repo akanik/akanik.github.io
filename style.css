@@ -848,3 +848,7 @@ div#title-logo div {
 #main-nav a:hover {
   color: #FDFCF4;
 }
+
+#skills .list li{
+  list-style: none;
+}
